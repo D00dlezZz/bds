@@ -27,6 +27,7 @@ import IconMail from "@/components/icons/IconMail.vue";
 .footer {
   background: #302A50;
   padding: 32px;
+  z-index: 2;
 }
 
 .footer-main {

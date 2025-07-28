@@ -4,17 +4,55 @@ import Footer from "@/components/Footer.vue";
 </script>
 
 <template>
-<div class="base-layout">
-  <Header/>
-    <slot/>
-  <Footer/>
-</div>
+  <div class="base-layout">
+    <div class="background-area">
+      <div class="bg-image"></div>
+        <Header />
+        <div class="main-content">
+          <slot />
+        </div>
+        <Footer />
+    </div>
+  </div>
 </template>
+
 
 <style scoped>
 .base-layout {
-  width: 100%;
-  height: 100%;
-  background: #0000001A;
+  min-height: 100vh;
+  width: 100vw;
+  background: #000;
 }
+
+.background-area {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.bg-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url('../assets/background.png') no-repeat center center;
+  background-size: cover;
+  overflow: hidden;
+  opacity: 0.8;
+}
+
+.main-content {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 896px;
+  padding-top: 211px;
+}
+
+
 </style>

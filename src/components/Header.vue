@@ -25,6 +25,9 @@ import Logo from "@/assets/icons/Logo.vue";
   justify-content: space-between;
   padding: 25.5px 40px;
   background: #000000B2;
+  z-index: 2;
+  width: 100%;
+  position: fixed;
 }
 
 .navbar {
