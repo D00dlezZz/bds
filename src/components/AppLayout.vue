@@ -38,10 +38,25 @@ import Footer from "@/components/Footer.vue";
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: url('../assets/background.png') no-repeat center center;
-  background-size: cover;
+  background: url('../assets/background.png') no-repeat;
+  background-size: contain;
   overflow: hidden;
-  opacity: 0.8;
+  opacity: 0.6;
+  top: 0;
+  left: 0;
+}
+
+.bg-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+      ellipse at bottom,
+      transparent 1%,
+      #000 100%
+  );
+  opacity: 0.6;
 }
 
 .main-content {
