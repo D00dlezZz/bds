@@ -7,3 +7,12 @@
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
 }
+
+
+.carousel__next--disabled {
+    display: none !important;
+}
+
+.carousel__prev--disabled {
+    display: none !important;
+}

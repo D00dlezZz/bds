@@ -1,6 +1,8 @@
 <script setup>
 
 import CoveringInfo from "@/components/CoveringInfo.vue";
+import CoveringFilters from "@/components/CoveringFilters.vue";
+import CoveringTable from "@/components/CoveringTable.vue";
 </script>
 
 <template>
@@ -8,6 +10,8 @@ import CoveringInfo from "@/components/CoveringInfo.vue";
     <div class="covering-info">
       <h1>Покрытие</h1>
       <CoveringInfo/>
+      <CoveringFilters/>
+      <CoveringTable/>
     </div>
   </div>
 </template>
@@ -18,6 +22,7 @@ import CoveringInfo from "@/components/CoveringInfo.vue";
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  gap: 24px;
 }
 
 h1 {
