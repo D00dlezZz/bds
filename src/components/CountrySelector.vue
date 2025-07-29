@@ -6,17 +6,15 @@ import IconSearch from "@/components/icons/IconSearch.vue";
 import IconClose from "@/components/icons/IconClose.vue";
 
 const countries = ref([
-  { label: 'Россия', code: 'RU', selected: false },
-  { label: 'Германия', code: 'DE', selected: false  },
-  { label: 'Англия', code: 'EN', selected: false  },
-  { label: 'Албания', code: 'AL', selected: false  },
-  { label: 'Германия', code: 'DE', selected: false  },
-  { label: 'Англия', code: 'EN', selected: false  },
-  { label: 'Албания', code: 'AL', selected: false  },
+  { label: 'Россия', code: 'ru' },
+  { label: 'Германия', code: 'de' },
+  { label: 'Англия', code: 'gb' },
+  { label: 'Албания', code: 'al' }
 ]);
 
 const search = ref('');
 const selectedCountries = ref([]);
+const preSelectedCountries = ref([]);
 
 const showDropdown = ref(false);
 
@@ -32,7 +30,6 @@ function toggleCountry(country) {
   if (exists) {
     selectedCountries.value = selectedCountries.value.filter(c => c.code !== country.code)
   } else {
-    country.selected = true;
     selectedCountries.value.push(country)
   }
 }
@@ -60,35 +57,42 @@ function clearAll() {
     <div class="tags-wrapper" v-if="selectedCountries.length">
       <span class="tag" v-for="c in selectedCountries" :key="c.code">
         {{ c.label }}
-        <IconClose class="remove-tag" @click="removeCountry(c.code)"/>
+        <IconClose class="remove-tag" @click="removeCountry(c.code)" />
       </span>
       <span class="clear-all" @click="clearAll">СБРОСИТЬ ВСЕ</span>
     </div>
     <div class="dropdown" v-if="showDropdown">
-     <div class="search-wrap">
-       <input
-           class="search"
-           type="text"
-           v-model="search"
-           placeholder="ПОИСК"
-       />
-       <IconSearch/>
-     </div>
+      <div class="search-wrap">
+        <input
+            class="search"
+            type="text"
+            v-model="search"
+            placeholder="ПОИСК"
+        />
+        <IconSearch/>
+      </div>
       <div class="country-list">
         <div
             class="country-row"
             v-for="c in filteredCountries"
             :key="c.code"
-            @click="toggleCountry(c)"
+            @click.stop="toggleCountry(c)"
         >
-          <CustomCheckbox v-model="c.selected">
-            {{ c.label }}
+          <CustomCheckbox
+              :modelValue="!!selectedCountries.find(sel => sel.code === c.code)"
+              @update:modelValue="() => toggleCountry(c)"
+          >
+              <div class="country-cell">
+                <i class="flag" :class="[`flag-${c.code}`]"></i>
+                {{ c.label }}
+              </div>
           </CustomCheckbox>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .country-select {
@@ -193,7 +197,6 @@ function clearAll() {
   overflow-y: auto;
   padding: 14px 0;
   border: 1px solid #4A4C56;
-  border-top: none;
 }
 .country-row {
   cursor: pointer;
@@ -203,6 +206,12 @@ function clearAll() {
   color: #fff;
   transition: background 0.2s;
   font-size: 14px;
+}
+
+.country-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .country-row:hover {
   background: #4A4C56;
