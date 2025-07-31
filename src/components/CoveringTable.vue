@@ -81,45 +81,105 @@ function toggle(country) {
 
 <style scoped>
 .country-table {
-  background: #0B0A0F;
+  background: transparent;
   width: 100%;
+  overflow: hidden;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18);
 }
 
 table {
   width: 100%;
   border-spacing: 0;
-  color: #D3FFE9;
+  color: #fff;
+  font-size: 16px;
+  background: transparent;
 }
 
 thead {
-  background: #0B0A0F;
-  font-size: 10px;
+  background: #181624;
+  font-size: 13px;
 }
 
-th{
-  padding: 7px 6px;
+th {
+  padding: 16px 8px;
   text-align: center;
   vertical-align: middle;
+  color: #D3FFE9;
+  font-weight: 700;
+  border-bottom: 1px solid #232030;
+  letter-spacing: 0.02em;
 }
 
 .country-header-td {
-  display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 12px;
   color: #fff;
-  font-weight: bold;
-  font-size: 19px;
+  font-weight: 700;
+  font-size: 20px;
   position: relative;
-  background: #1A1824;
-  padding: 20px 18px;
+  background: #232030;
+  padding-left: 18px;
+  padding-right: 18px;
+  border-bottom: 1px solid #232030;
+  border-top: 1px solid #232030;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.country-header-td:hover {
+  background: #29263a;
 }
 
 .country-title {
   flex: 0 0 auto;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.league-row {
+  background: #181624;
+  transition: background 0.2s;
+}
+
+.league-row:nth-child(even) {
+  background: #232030;
 }
 
 .league-col {
   border-right: 1px solid #232030;
+  color: #fff;
+  font-weight: 400;
+  padding: 14px 12px;
+  min-width: 160px;
+  background: transparent;
 }
+
+.feature-cell {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0 8px;
+  min-width: 48px;
+}
+
+.feature-cell svg {
+  width: 22px;
+  height: 22px;
+  color: #B6FFE0;
+  display: inline-block;
+}
+
+.flag {
+  width: 28px;
+  height: 20px;
+  display: inline-block;
+  background-size: cover;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.12);
+  margin-right: 8px;
+}
+
+.open {
+  transform: rotate(90deg);
+  transition: transform 0.2s;
+}
+
 </style>

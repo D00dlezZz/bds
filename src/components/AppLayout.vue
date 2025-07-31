@@ -11,7 +11,7 @@ import Footer from "@/components/Footer.vue";
         <div class="main-content">
           <slot />
         </div>
-        <Footer />
+        <Footer/>
     </div>
   </div>
 </template>
@@ -28,8 +28,6 @@ import Footer from "@/components/Footer.vue";
   width: 100%;
   min-height: 100vh;
   position: relative;
-  display: flex;
-  flex-direction: column;
   max-width: 100%;
   margin: 0 auto;
 }
@@ -40,7 +38,6 @@ import Footer from "@/components/Footer.vue";
   z-index: 0;
   background: url('../assets/background.png') no-repeat;
   background-size: contain;
-  overflow: hidden;
   opacity: 0.6;
   top: 0;
   left: 0;
@@ -61,13 +58,11 @@ import Footer from "@/components/Footer.vue";
 
 .main-content {
   position: relative;
-  z-index: 2;
-  min-height: 100vh;
   margin: 0 auto;
   width: 100%;
   max-width: 896px;
   padding-top: 211px;
+  padding-bottom: 100px;
+  min-height: 0;
 }
-
-
 </style>

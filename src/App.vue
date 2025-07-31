@@ -5,14 +5,16 @@ import CoveringView from "@/views/CoveringView.vue";
 
 <template>
   <AppLayout>
-    <div class="main-container">
+    <div class="main-card">
       <CoveringView/>
     </div>
   </AppLayout>
 </template>
 
 <style scoped>
-.main-container {
-  height: 100vh;
+.main-card {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
 </style>

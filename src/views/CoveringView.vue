@@ -6,14 +6,12 @@ import CoveringTable from "@/components/CoveringTable.vue";
 </script>
 
 <template>
-  <div>
     <div class="covering-info">
       <h1>Покрытие</h1>
       <CoveringInfo/>
       <CoveringFilters/>
       <CoveringTable/>
     </div>
-  </div>
 </template>
 
 <style scoped>
