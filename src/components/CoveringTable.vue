@@ -12,7 +12,7 @@ const columns = [
 const countries = ref([
   {
     name: 'Албания',
-    code: 'al',
+    icon: './assets/icons/albania.svg',
     open: true,
     leagues: [
       {name: '1st Division', features: [1, 1, 1, 1, 0, 0, 1, 1, 0, 0]},
@@ -22,7 +22,7 @@ const countries = ref([
   },
   {
     name: 'Россия',
-    code: 'ru',
+    icon: './assets/icons/albania.svg',
     open: true,
     leagues: [
       {name: '1st Division', features: [1, 1, 1, 1, 0, 0, 1, 1, 0, 0]},
@@ -52,9 +52,11 @@ function toggle(country) {
       <template v-for="country in countries" :key="country.name">
         <tr @click="toggle(country)">
           <td class="country-header-td" :colspan="columns.length + 1">
-            <IconArrow :class="{ open: country.open }"/>
-            <i class="flag" :class="[`flag-${country.code}`]"></i>
-            <span class="country-title">{{ country.name }}</span>
+            <div class="td-content">
+              <IconArrow :class="{ open: country.open }"/>
+              <img class="flag" :src="country.icon" :alt="country.name"/>
+              <span class="country-title">{{ country.name }}</span>
+            </div>
           </td>
         </tr>
         <tr
@@ -84,7 +86,7 @@ function toggle(country) {
   background: transparent;
   width: 100%;
   overflow: hidden;
-  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18);
+
 }
 
 table {
@@ -96,17 +98,17 @@ table {
 }
 
 thead {
-  background: #181624;
-  font-size: 13px;
+  background: #0B0A0F;
+  font-size: 10px;
+  text-transform: uppercase;
 }
 
 th {
-  padding: 16px 8px;
+  padding: 7px 6px;
   text-align: center;
   vertical-align: middle;
   color: #D3FFE9;
   font-weight: 700;
-  border-bottom: 1px solid #232030;
   letter-spacing: 0.02em;
 }
 
@@ -116,11 +118,9 @@ th {
   font-weight: 700;
   font-size: 20px;
   position: relative;
-  background: #232030;
-  padding-left: 18px;
-  padding-right: 18px;
+  background: #1A1824;
+  padding: 22px 18px;
   border-bottom: 1px solid #232030;
-  border-top: 1px solid #232030;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -129,27 +129,38 @@ th {
   background: #29263a;
 }
 
+.td-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .country-title {
   flex: 0 0 auto;
-  font-weight: 700;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 16px;
 }
 
 .league-row {
-  background: #181624;
-  transition: background 0.2s;
+  background: #15131D;
 }
 
 .league-row:nth-child(even) {
-  background: #232030;
+  background: #0B0A0F;
+}
+
+.league-row:hover {
+  background: #3C3B3F;
+  cursor: pointer;
 }
 
 .league-col {
-  border-right: 1px solid #232030;
+  border-right: 2px solid #232030;
   color: #fff;
   font-weight: 400;
-  padding: 14px 12px;
-  min-width: 160px;
+  font-size: 14px;
+  padding: 22px 20px;
+  min-width: 214px;
   background: transparent;
 }
 
@@ -168,13 +179,9 @@ th {
 }
 
 .flag {
-  width: 28px;
+  width: 30px;
   height: 20px;
-  display: inline-block;
-  background-size: cover;
-  border-radius: 3px;
-  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.12);
-  margin-right: 8px;
+  margin-right: -6px;
 }
 
 .open {
