@@ -165,7 +165,7 @@ function clearAll() {
   background: #0B0A0F;
   position: absolute;
   top: 48px;
-  z-index: 2;
+  z-index: 5;
   width: 100%;
   border-radius: 8px;
   box-shadow: 0 11px 48px #210d2c66;

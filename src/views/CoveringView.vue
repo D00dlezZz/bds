@@ -5,7 +5,7 @@ import CoveringTable from "@/components/CoveringTable.vue";
 import {computed, onMounted, onUnmounted, ref} from "vue";
 
 const width = ref(window.innerWidth);
-const isMobile = computed(() => width.value <= 540);
+const isMobile = computed(() => width.value <= 700);
 
 function updateSize() {
   width.value = window.innerWidth;
@@ -20,15 +20,21 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <div class="main-wrap">
     <div class="covering-info">
       <h1>Покрытие</h1>
       <CoveringInfo :is-mobile="isMobile"/>
       <CoveringFilters :is-mobile="isMobile"/>
     </div>
-  <CoveringTable :is-mobile="isMobile"/>
+    <CoveringTable :is-mobile="isMobile"/>
+  </div>
 </template>
 
 <style scoped>
+
+.main-wrap {
+  width: 100%;
+}
 .covering-info {
   display: flex;
   flex-direction: column;
@@ -46,13 +52,18 @@ h1 {
 }
 
 @media screen and (max-width: 540px) {
-  .covering-info {
-    padding: 0 27px;
-  }
-
   h1 {
     font-size: 36px;
     margin-bottom: 32px;
+  }
+  .covering-info {
+    padding: 0 27px;
+  }
+}
+
+@media screen and (max-width: 1110px) {
+  .covering-info {
+    padding: 0 27px;
   }
 }
 </style>

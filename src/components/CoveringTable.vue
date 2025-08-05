@@ -89,7 +89,7 @@ function toggle(country) {
       </thead>
       <tbody>
       <template v-for="country in countries" :key="country.name">
-        <tr @click="toggle(country)" class="test">
+        <tr @click="toggle(country)">
           <td class="country-header-td" :colspan="!isMobile ? columns.length + 1 : 0">
             <div class="td-content">
               <IconArrow :class="{ open: country.open }"/>
@@ -188,13 +188,11 @@ th {
 .league-row { background: #15131D; }
 .league-row.even { background: #0B0A0F; }
 
-.league-row > .league-col { background: #15131D; }
-.league-row.even > .league-col { background: #0B0A0F; }
-
 .league-row:hover {
   background: #3C3B3F;
   cursor: pointer;
 }
+
 
 .league-col {
   border-right: 2px solid #232030;
@@ -243,7 +241,7 @@ th {
   padding: 20px 27px;
 }
 
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 700px) {
   .country-table {
     overflow-x: auto;
   }

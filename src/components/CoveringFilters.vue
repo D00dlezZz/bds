@@ -1,6 +1,6 @@
 <script setup>
 import { Carousel, Slide, Navigation as CarouselNavigation } from 'vue3-carousel'
-import {ref, computed, defineAsyncComponent, onMounted, onUnmounted, markRaw} from 'vue'
+import {ref, computed, defineAsyncComponent, onMounted, onUnmounted, markRaw, toRef} from 'vue'
 import CountrySelector from "@/components/CountrySelector.vue";
 import IconArrow from "@/components/icons/IconArrow.vue";
 
@@ -15,25 +15,29 @@ const sportFilters = ref(
     ]
 )
 
-
 defineProps({
-  isMobile: true
-})
+  isMobile: false,
+});
 
-const itemsToShow = 6;
+const itemsToShow = ref(6);
 const selectedFilter = ref(sportFilters.value[0]);
 const isDropdownOpen = ref(false);
 
-const showNavigation = computed(() => sportFilters.value.length > itemsToShow);
+const showNavigation = computed(() => sportFilters.value.length > itemsToShow.value);
 const filteredSportFilters = computed(() =>
     sportFilters.value.filter(filter => filter.id !== selectedFilter.value.id)
 )
 
 const carouselConfig = {
-  itemsToShow,
+  itemsToShow: 6,
   wrapAround: false,
   snapAlign: 'center',
-  gap: 20
+  gap: 24,
+  mouseDrag: false,
+  breakpoints: {
+    1200: { itemsToShow: 3 },
+    800: { itemsToShow: 1 }
+  }
 }
 
 
@@ -133,7 +137,9 @@ function handleMobileSelectFilter(filter) {
   cursor: pointer;
   transition: all;
 }
-
+.carousel__slide {
+  width: 130px !important;
+}
 .active {
   border: 2px solid red;
   background: url('../assets/filter-background-active.png'),
@@ -217,11 +223,11 @@ function handleMobileSelectFilter(filter) {
   transform: translateY(-10px);
 }
 
-
 @media screen and (max-width: 540px){
   .filters-container {
     gap: 32px;
     padding: 20px 0 0 0;
   }
 }
+
 </style>

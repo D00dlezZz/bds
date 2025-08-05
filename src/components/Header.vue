@@ -129,7 +129,7 @@ import Logo from "@/assets/icons/Logo.vue";
 .dropdown__btn span {
   display: block;
   width: 25px;
-  height: 2px;
+  height: 7px;
   margin-bottom: 5px;
   position: relative;
   background: #ffffff;

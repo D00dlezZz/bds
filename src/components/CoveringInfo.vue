@@ -28,7 +28,8 @@ const carouselConfig = {
   itemsToShow: 1,
   wrapAround: false,
   snapAlign: 'center',
-  gap: 20
+  gap: 20,
+  mouseDrag: false,
 }
 
 
