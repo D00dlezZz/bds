@@ -254,12 +254,29 @@ th {
 
   .league-col {
     background: #0B0A0F;
+    font-size: 12px;
+    padding: 10px 20px;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   td.country-header-td {
     position: sticky;
     left: 0;
     z-index: 1;
+    padding: 10px 20px;
+  }
+
+  .td-content {
+    gap: 8px;
+  }
+  .country-title {
+    font-size: 12px;
+  }
+  thead {
+    font-size: 8px;
   }
 
 }

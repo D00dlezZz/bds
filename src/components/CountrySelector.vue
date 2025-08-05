@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import {ref, computed, onMounted, onUnmounted} from 'vue'
 import CustomCheckbox from "@/components/ui/CustomCheckbox.vue";
 import IconArrow from "@/components/icons/IconArrow.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
@@ -14,7 +14,7 @@ const countries = ref([
 
 const search = ref('');
 const selectedCountries = ref([]);
-const preSelectedCountries = ref([]);
+const countrySelectRef = ref(null)
 
 const showDropdown = ref(false);
 
@@ -41,10 +41,24 @@ function removeCountry(code) {
 function clearAll() {
   selectedCountries.value = []
 }
+
+function handleClickOutside(event) {
+  if (countrySelectRef.value && !countrySelectRef.value.contains(event.target)) {
+    showDropdown.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 </script>
 
 <template>
-  <div class="country-select">
+  <div class="country-select" ref="countrySelectRef">
     <div
         class="dropdown-header"
         :class="{ 'dropdown-header-open': showDropdown }"
