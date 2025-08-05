@@ -1,5 +1,5 @@
 <script setup>
-import {ref, computed, onMounted, onUnmounted} from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import CustomCheckbox from "@/components/ui/CustomCheckbox.vue";
 import IconArrow from "@/components/icons/IconArrow.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
@@ -13,48 +13,62 @@ const countries = ref([
 ]);
 
 const search = ref('');
-const selectedCountries = ref([]);
-const countrySelectRef = ref(null)
-
 const showDropdown = ref(false);
 
+const tempSelectedCountries = ref([]);
+const confirmedSelectedCountries = ref([]);
+
+const countrySelectRef = ref(null);
+
 const filteredCountries = computed(() => {
-  if (!search.value) return countries.value
+  if (!search.value) return countries.value;
   return countries.value.filter(c =>
       c.label.toLowerCase().includes(search.value.toLowerCase())
-  )
+  );
 });
 
 function toggleCountry(country) {
-  const exists = selectedCountries.value.find(c => c.code === country.code)
+  const exists = tempSelectedCountries.value.find(c => c.code === country.code);
   if (exists) {
-    selectedCountries.value = selectedCountries.value.filter(c => c.code !== country.code)
+    tempSelectedCountries.value = tempSelectedCountries.value.filter(c => c.code !== country.code);
   } else {
-    selectedCountries.value.push(country)
+    tempSelectedCountries.value.push(country);
   }
 }
 
 function removeCountry(code) {
-  selectedCountries.value = selectedCountries.value.filter(c => c.code !== code)
+  confirmedSelectedCountries.value = confirmedSelectedCountries.value.filter(c => c.code !== code);
+  tempSelectedCountries.value = tempSelectedCountries.value.filter(c => c.code !== code);
 }
 
 function clearAll() {
-  selectedCountries.value = []
+  tempSelectedCountries.value = [];
+  confirmedSelectedCountries.value = [];
+}
+
+function openDropdown() {
+  tempSelectedCountries.value = [...confirmedSelectedCountries.value];
+  showDropdown.value = true;
+}
+
+function applySelection() {
+  confirmedSelectedCountries.value = [...tempSelectedCountries.value];
+  showDropdown.value = false;
 }
 
 function handleClickOutside(event) {
   if (countrySelectRef.value && !countrySelectRef.value.contains(event.target)) {
-    showDropdown.value = false
+    showDropdown.value = false;
   }
 }
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
+  document.addEventListener('click', handleClickOutside);
+});
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
+  document.removeEventListener('click', handleClickOutside);
+});
 </script>
 
 <template>
@@ -62,53 +76,68 @@ onUnmounted(() => {
     <div
         class="dropdown-header"
         :class="{ 'dropdown-header-open': showDropdown }"
-        @click="showDropdown = !showDropdown"
+        @click="!showDropdown ? openDropdown() : showDropdown = false"
         tabindex="0"
     >
       ВЫБРАТЬ СТРАНУ
-      <IconArrow class="arrow" :class="{ open: showDropdown }"/>
+      <IconArrow class="arrow" :class="{ open: showDropdown }" />
     </div>
-    <div class="tags-wrapper" v-if="selectedCountries.length">
-      <span class="tag" v-for="c in selectedCountries" :key="c.code">
+
+    <div class="tags-wrapper" v-if="confirmedSelectedCountries.length">
+      <span class="tag" v-for="c in confirmedSelectedCountries" :key="c.code">
         {{ c.label }}
-        <IconClose class="remove-tag" @click="removeCountry(c.code)" />
+        <IconClose class="remove-tag" @click.stop="removeCountry(c.code)" />
       </span>
       <span class="clear-all" @click="clearAll">СБРОСИТЬ ВСЕ</span>
     </div>
+
     <transition name="dropdown">
-    <div class="dropdown" v-if="showDropdown">
-      <div class="search-wrap">
-        <input
-            class="search"
-            type="text"
-            v-model="search"
-            placeholder="ПОИСК"
-        />
-        <IconSearch/>
-      </div>
-      <div class="country-list">
-        <div
-            class="country-row"
-            v-for="c in filteredCountries"
-            :key="c.code"
-            @click.stop="toggleCountry(c)"
-        >
-          <CustomCheckbox
-              :modelValue="!!selectedCountries.find(sel => sel.code === c.code)"
-              @update:modelValue="() => toggleCountry(c)"
+      <div class="dropdown" v-if="showDropdown">
+        <div class="search-wrap">
+          <input
+              class="search"
+              type="text"
+              v-model="search"
+              placeholder="ПОИСК"
+          />
+          <IconSearch />
+        </div>
+
+        <div class="country-list">
+          <div
+              class="country-row"
+              v-for="c in filteredCountries"
+              :key="c.code"
+              @click.stop="toggleCountry(c)"
           >
+            <CustomCheckbox
+                :modelValue="!!tempSelectedCountries.find(sel => sel.code === c.code)"
+                @update:modelValue="() => toggleCountry(c)"
+            >
               <div class="country-cell">
                 <i class="flag" :class="[`flag-${c.code}`]"></i>
                 {{ c.label }}
               </div>
-          </CustomCheckbox>
+            </CustomCheckbox>
+          </div>
+        </div>
+        <div class="dropdown-footer">
+          <button class="apply-btn" @click="applySelection">ПРИМЕНИТЬ</button>
+          <div class="dropdown-bottom-row">
+            <span class="dropdown-selected">ВЫБРАНО: {{ tempSelectedCountries.length }}</span>
+            <span
+                v-if="tempSelectedCountries.length"
+                class="dropdown-clear"
+                @click="clearAll"
+            >
+              СБРОСИТЬ ВСЕ
+            </span>
+          </div>
         </div>
       </div>
-    </div>
     </transition>
   </div>
 </template>
-
 
 <style scoped>
 .country-select {
@@ -121,7 +150,6 @@ onUnmounted(() => {
   background: #0B0A0F;
   color: #D3FFE9;
   border: 1px solid #797B8A;
-  border-radius: 2px;
   cursor: pointer;
   user-select: none;
   display: flex;
@@ -183,9 +211,8 @@ onUnmounted(() => {
   top: 48px;
   z-index: 5;
   width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 11px 48px #210d2c66;
   margin-top: 8px;
+  border: 1px solid #4A4C56;
 }
 
 .dropdown-enter-active,
@@ -205,7 +232,7 @@ onUnmounted(() => {
   justify-content: space-between;
   width: 100%;
   padding: 8px;
-  border: 1px solid #4A4C56;
+  border-bottom: 1px solid #4A4C56;
   color: #FFFFFF;
   background: #0B0A0F;
 }
@@ -222,7 +249,6 @@ onUnmounted(() => {
   max-height: 180px;
   overflow-y: auto;
   padding: 14px 0;
-  border: 1px solid #4A4C56;
 }
 .country-row {
   cursor: pointer;
@@ -243,10 +269,50 @@ onUnmounted(() => {
   background: #4A4C56;
 }
 
+.dropdown-footer {
+  padding: 14px;
+  background: #0B0A0F;
+  user-select: none;
+}
 
-@media screen and (max-width: 540px){
+.apply-btn {
+  width: 100%;
+  background: #865DDB;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 7px 0;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.2s;
+}
+
+.apply-btn:active {
+  background: #6a3ab9;
+}
+
+.dropdown-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  padding: 0 2px 5px;
+  color: #8886A0;
+}
+
+.dropdown-clear {
+  color: #FFF;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 540px) {
   .country-select {
-    width: 100% ;
+    width: 100%;
   }
 
   .dropdown-header {
@@ -257,5 +323,4 @@ onUnmounted(() => {
     max-width: 100%;
   }
 }
-
 </style>
