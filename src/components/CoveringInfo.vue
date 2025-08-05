@@ -1,33 +1,24 @@
 <script setup>
-import { ref } from 'vue'
+import {computed, ref} from 'vue'
 import { Carousel, Slide, Navigation as CarouselNavigation } from 'vue3-carousel'
 
 const designations = ref([
-  [
-    [
-      {title: 'Составы', text: 'таблицы, расписание и тп', color: '#F1FCD9'},
-      {title: 'Арбитры', text: 'статистика игроков по матчам и турнирам', color: '#F1FCD9'},
-      {title: 'Коэфф.', text: 'средние значения команды в турнире', color: '#F1FCD9'},
-    ],
-    [
-      {title: 'Составы', text: 'таблицы, расписание и тп', color: '#F1FCD9'},
-      {title: 'Арбитры', text: 'статистика игроков по матчам и турнирам', color: '#F1FCD9'},
-      {title: 'Коэфф.', text: 'средние значения команды в турнире', color: '#F1FCD9'},
-    ]
-  ],
-  [
-    [
-      {title: 'Составы', text: 'таблицы, расписание и тп', color: '#F1FCD9'},
-      {title: 'Арбитры', text: 'статистика игроков по матчам и турнирам', color: '#F1FCD9'},
-      {title: 'Коэфф.', text: 'средние значения команды в турнире', color: '#F1FCD9'},
-    ],
-    [
-      {title: 'Составы', text: 'таблицы, расписание и тп', color: '#F1FCD9'},
-      {title: 'Арбитры', text: 'статистика игроков по матчам и турнирам', color: '#F1FCD9'},
-      {title: 'Коэфф.', text: 'средние значения команды в турнире', color: '#F1FCD9'},
-    ]
-  ]
-])
+  { title: 'Матч-центр', text: 'таблицы, расписание и тп' },
+  { title: 'Стат. игр', text: 'статистика игроков по матчам и турнирам' },
+  { title: 'Ср. знач.', text: 'средние значения команды в турнире' },
+  { title: 'Составы', text: 'таблицы, расписание и тп' },
+  { title: 'Арбитры', text: 'статистика игроков по матчам и турнирам' },
+  { title: 'Коэфф.', text: 'средние значения команды в турнире' },
+  { title: 'Прогнозы', text: 'средние значения команды в турнире' },
+  { title: 'СР. знач.', text: 'средние значения команды в турнире' },
+  { title: 'Обог. контент', text: 'средние значения команды в турнире' },
+  { title: 'Тренды и серии.', text: 'средние значения команды в турнире' },
+]);
+
+const normalizedDesignations = ref(chunkArray(
+    designations.value,
+    6
+));
 
 const carouselConfig = {
   itemsToShow: 1,
@@ -35,20 +26,39 @@ const carouselConfig = {
   snapAlign: 'center',
   gap: 20
 }
+
+
+const showAll = ref(false);
+
+const displayedDesignations = computed(() =>
+    showAll.value ? designations.value : designations.value.slice(0, 3)
+);
+
+function toggleShowAll() {
+  showAll.value = !showAll.value;
+}
+
+function chunkArray(arr, chunkSize) {
+  const res = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    res.push(arr.slice(i, i + chunkSize));
+  }
+  return res;
+}
 </script>
 
 <template>
   <div class="covering-info">
     <h4>ОБОЗНАЧЕНИЯ</h4>
     <Carousel v-bind="carouselConfig">
-      <Slide v-for="(column, colIdx) in designations" :key="colIdx">
+      <Slide v-for="(block, blockIdx) in normalizedDesignations" :key="blockIdx">
         <div class="designation-col">
-          <div v-for="(test, idx) in column" :key="idx">
-            <div v-for="(designation, idx) in test" :key="idx" class="designation">
-              <span class="dot" :style="{ background: designation.color }"></span>
-              <span class="designation-title">{{ designation.title }}</span>
+          <div v-for="(designation, idx) in block" :key="idx" class="designation">
+            <span class="dot"></span>
+            <p class="designation-title">
+              {{ designation.title }}
               <span class="designation-text"> - {{ designation.text }}</span>
-            </div>
+            </p>
           </div>
         </div>
       </Slide>
@@ -56,6 +66,31 @@ const carouselConfig = {
         <CarouselNavigation/>
       </template>
     </Carousel>
+    <div>
+      <ul class="designation-list">
+        <li v-for="(item, idx) in displayedDesignations" :key="idx" class="designation">
+          <span class="dot"></span>
+          <span>
+          <span class="designation-title">{{ item.title }}</span>
+          <span class="designation-text"> - {{ item.text }}</span>
+        </span>
+        </li>
+      </ul>
+      <button
+          class="show-more-btn"
+          v-if="!showAll"
+          @click="toggleShowAll"
+      >
+        ПОКАЗАТЬ ВСЕ
+      </button>
+      <button
+          class="show-more-btn"
+          v-else
+          @click="toggleShowAll"
+      >
+        СКРЫТЬ
+      </button>
+    </div>
   </div>
 </template>
 
@@ -72,6 +107,10 @@ const carouselConfig = {
   margin-bottom: 32px;
 }
 
+.carousel__slide {
+  justify-content: flex-start;
+}
+
 h4 {
   font-size: 24px;
   font-weight: 700;
@@ -81,10 +120,13 @@ h4 {
 }
 
 .designation-col {
-  display: flex;
-  flex-direction: row;
-  gap: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
   min-width: 240px;
+  max-width: 794px;
 }
 
 .designation {
@@ -97,15 +139,15 @@ h4 {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  margin-top: 8px;
+  margin-top: 6px;
   margin-right: 10px;
   flex-shrink: 0;
+  background: #F1FCD9;
 }
 
 .designation-title {
   font-weight: 700;
   color: #FFD6A0;
-  margin-right: 4px;
   font-size: 16px;
   width: fit-content;
 }
@@ -117,7 +159,7 @@ h4 {
 
 .carousel {
   --vc-nav-color: #fff;
-  --vc-nav-color-hover: #00fff7;
+  --vc-nav-color-hover: #fff;
   --vc-nav-background: none;
   --vc-nav-border-radius: 12px;
   --vc-nav-width: 44px;
@@ -126,16 +168,8 @@ h4 {
   --vc-nav-icon-size: 24px;
 }
 
-.carousel__next, .carousel__prev {
-  filter: drop-shadow(0 0 5px #242130);
-  top: 50%;
-  transform: translateY(-50%);
+:global(.carousel__prev) {
+  margin-left: 95%;
 }
 
-.carousel__prev {
-  left: -55px;
-}
-.carousel__next {
-  right: -55px;
-}
 </style>

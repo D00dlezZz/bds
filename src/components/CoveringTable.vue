@@ -12,6 +12,16 @@ const columns = [
 const countries = ref([
   {
     name: 'Албания',
+    icon: '',
+    open: true,
+    leagues: [
+      {name: '1st Division', features: [1, 1, 1, 1, 0, 0, 1, 1, 0, 0]},
+      {name: '2nd Division - Group A', features: [1, 1, 0, 1, 0, 1, 0, 1, 1, 0]},
+      {name: '3nd Division - Group A', features: [0, 1, 1, 0, 0, 1, 1, 0, 0, 1]},
+    ]
+  },
+  {
+    name: 'Алжир',
     icon: './assets/icons/albania.svg',
     open: true,
     leagues: [
@@ -21,15 +31,35 @@ const countries = ref([
     ]
   },
   {
-    name: 'Россия',
+    name: 'Андорра',
     icon: './assets/icons/albania.svg',
     open: true,
+    leagues: [
+      {name: '1st Division', features: [1, 1, 1, 1, 0, 0, 1, 1, 0, 0]},
+      {name: '2nd Division - Group A', features: [1, 1, 0, 0, 1, 1, 0, 1, 1, 0]},
+      {name: '3nd Division - Group A', features: [0, 1, 1, 0, 0, 1, 1, 0, 0, 1]},
+    ]
+  },
+  {
+    name: 'Ангола',
+    icon: './assets/icons/albania.svg',
+    open: false,
     leagues: [
       {name: '1st Division', features: [1, 1, 1, 1, 0, 0, 1, 1, 0, 0]},
       {name: '2nd Division - Group A', features: [1, 1, 0, 0, 0, 1, 0, 1, 1, 0]},
       {name: '3nd Division - Group A', features: [0, 1, 1, 0, 0, 1, 1, 0, 0, 1]},
     ]
-  }
+  },
+  {
+    name: 'Аргентина',
+    icon: './assets/icons/albania.svg',
+    open: false,
+    leagues: [
+      {name: '1st Division', features: [1, 1, 1, 1, 0, 0, 1, 1, 0, 0]},
+      {name: '2nd Division - Group A', features: [1, 1, 0, 0, 1, 1, 0, 1, 1, 0]},
+      {name: '3nd Division - Group A', features: [0, 1, 1, 0, 0, 1, 1, 0, 0, 1]},
+    ]
+  },
 ])
 
 function toggle(country) {

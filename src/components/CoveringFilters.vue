@@ -106,7 +106,7 @@ onUnmounted(() => {
 
 .carousel {
   --vc-nav-color: #fff;
-  --vc-nav-color-hover: #00fff7;
+  --vc-nav-color-hover: #fff;
   --vc-nav-background: none;
   --vc-nav-border-radius: 12px;
   --vc-nav-width: 44px;
