@@ -30,6 +30,7 @@ const filteredSportFilters = computed(() =>
 
 const carouselConfig = {
   itemsToShow: 6,
+  itemsToScroll: 1,
   wrapAround: false,
   snapAlign: 'center',
   gap: 24,
@@ -37,7 +38,8 @@ const carouselConfig = {
   breakpoints: {
     1200: { itemsToShow: 3 },
     800: { itemsToShow: 1 }
-  }
+  },
+  breakpointMode: 'viewport'
 }
 
 
@@ -51,16 +53,18 @@ function handleMobileSelectFilter(filter) {
 
 <template>
   <div class="filters-container">
-    <Carousel v-if="!isMobile" v-bind="carouselConfig">
-      <Slide v-for="slide in sportFilters" :key="slide.id" @click="selectFilter(slide)">
-        <div class="carousel__item" :class="selectedFilter.id === slide.id ? 'active' : ''">
-          <component :is="slide.iconComponent" />
-        </div>
-      </Slide>
-      <template #addons v-if="showNavigation">
-        <CarouselNavigation />
-      </template>
-    </Carousel>
+    <div class="filters-carousel">
+      <Carousel v-if="!isMobile" v-bind="carouselConfig">
+        <Slide v-for="slide in sportFilters" :key="slide.id" @click="selectFilter(slide)">
+          <div class="carousel__item" :class="selectedFilter.id === slide.id ? 'active' : ''">
+            <component :is="slide.iconComponent" />
+          </div>
+        </Slide>
+        <template #addons v-if="showNavigation">
+          <CarouselNavigation />
+        </template>
+      </Carousel>
+    </div>
     <div class="mobile-filter" v-if="isMobile">
       <div class="mobile-filter__selected" @click="isDropdownOpen = !isDropdownOpen">
         <component :is="selectedFilter.iconComponent" class="icon" />
@@ -98,7 +102,10 @@ function handleMobileSelectFilter(filter) {
   align-items: flex-start;
   gap: 40px;
 }
-
+.filters-carousel {
+  width: 100%;
+  overflow: hidden;
+}
 .carousel {
   --vc-nav-color: #fff;
   --vc-nav-color-hover: #fff;

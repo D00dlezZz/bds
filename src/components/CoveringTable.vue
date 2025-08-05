@@ -249,7 +249,7 @@ th {
   th.league-col, td.league-col {
     position: sticky;
     left: 0;
-    z-index: 3;
+    z-index: 1;
   }
 
   .league-col {
@@ -259,7 +259,7 @@ th {
   td.country-header-td {
     position: sticky;
     left: 0;
-    z-index: 4;
+    z-index: 1;
   }
 
 }

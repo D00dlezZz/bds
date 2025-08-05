@@ -61,6 +61,7 @@ function clearAll() {
       </span>
       <span class="clear-all" @click="clearAll">СБРОСИТЬ ВСЕ</span>
     </div>
+    <transition name="dropdown">
     <div class="dropdown" v-if="showDropdown">
       <div class="search-wrap">
         <input
@@ -90,6 +91,7 @@ function clearAll() {
         </div>
       </div>
     </div>
+    </transition>
   </div>
 </template>
 
@@ -170,7 +172,17 @@ function clearAll() {
   border-radius: 8px;
   box-shadow: 0 11px 48px #210d2c66;
   margin-top: 8px;
-  transition: all 0.5s;
+}
+
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transition: all 0.2s;
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
 .search-wrap {

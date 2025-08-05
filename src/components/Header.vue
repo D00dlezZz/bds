@@ -1,28 +1,22 @@
 <script setup>
-
+import {ref, watch} from 'vue';
 import Logo from "@/assets/icons/Logo.vue";
+const isDropdownOpen = ref(false);
+
+
+watch(isDropdownOpen, (open) => {
+  if (open) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+})
 </script>
 
 <template>
-<div class="header">
-  <Logo/>
-  <ul class="navbar">
-    <li>Покрытие</li>
-    <li>Букмекерам</li>
-    <li>Медиа</li>
-    <li>Бродкастерам</li>
-    <li>Продукты</li>
-    <li>Связаться</li>
-    <li>EN/RU</li>
-  </ul>
-  <div class="dropdown">
-    <div class="dropdown__btn active" id="dropdown__btn">
-      <input type="checkbox" class="input" />
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <ul class="dropdown__list ">
+  <div class="header">
+    <Logo/>
+    <ul class="navbar">
       <li>Покрытие</li>
       <li>Букмекерам</li>
       <li>Медиа</li>
@@ -31,8 +25,24 @@ import Logo from "@/assets/icons/Logo.vue";
       <li>Связаться</li>
       <li>EN/RU</li>
     </ul>
+    <div class="dropdown">
+      <div class="dropdown__btn" @click="isDropdownOpen = !isDropdownOpen">
+        <input type="checkbox" class="input" v-model="isDropdownOpen" />
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul class="dropdown__list" :class="{ active: isDropdownOpen }">
+        <li>Покрытие</li>
+        <li>Букмекерам</li>
+        <li>Медиа</li>
+        <li>Бродкастерам</li>
+        <li>Продукты</li>
+        <li>Связаться</li>
+        <li>EN/RU</li>
+      </ul>
+    </div>
   </div>
-</div>
 </template>
 
 <style scoped>
@@ -70,37 +80,24 @@ import Logo from "@/assets/icons/Logo.vue";
   margin-right: auto;
   left: 0;
   right: 0;
+  top: 81px;
   width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 2;
-  transform: translate(-100%, 0px);
-
-  transition: all 0.2s ease 0s;
+  color: #FFFFFF;
+  background-color: #030303;
   opacity: 0;
+  z-index: 3;
   pointer-events: none;
+  height: 100vh;
+  list-style-type: none;
+  overflow: hidden;
 }
 
 .dropdown__list.active {
   pointer-events: unset;
-  opacity: 1;
-  -webkit-transform: translate(0px, 0px);
-  -ms-transform: translate(0px, 0px);
-  transform: translate(0px, 0px);
-  -webkit-transition: all 0.8s ease 0.4s;
-  -o-transition: all 0.8s ease 0.4s;
-  -webkit-transition: all 0.8s ease 0.1s;
-  -o-transition: all 0.8s ease 0.1s;
-  transition: all 0.8s ease 0.1s;
-}
-
-.dropdown__list a {
-  text-decoration: none;
-  font-size: 0.5em;
-  font-weight: 400;
-  padding-bottom: 1.6em;
-  color: #cbcbcb !important;
+  opacity: 0.8;
 }
 
 .dropdown__btn {
@@ -113,6 +110,13 @@ import Logo from "@/assets/icons/Logo.vue";
   user-select: none;
 }
 
+.dropdown__list li {
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: 20px 0;
+  opacity: 1;
+}
 .dropdown__btn input {
   display: block;
   width: 40px;
@@ -129,7 +133,7 @@ import Logo from "@/assets/icons/Logo.vue";
 .dropdown__btn span {
   display: block;
   width: 25px;
-  height: 7px;
+  height: 2px;
   margin-bottom: 5px;
   position: relative;
   background: #ffffff;
@@ -177,9 +181,7 @@ import Logo from "@/assets/icons/Logo.vue";
 
 .dropdown__btn input:checked ~ span {
   opacity: 1;
-  -webkit-transform: rotate(-45deg) translate(-2px, -3px);
-  -ms-transform: rotate(-45deg) translate(-2px, -3px);
-  transform: rotate(-45deg) translate(-2px, -3px);
+  transform: rotate(-45deg) translate(0px, -3px);
   background: #ffffff;
 }
 
