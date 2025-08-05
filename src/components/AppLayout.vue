@@ -65,4 +65,10 @@ import Footer from "@/components/Footer.vue";
   padding-bottom: 100px;
   min-height: 0;
 }
+
+@media screen and (max-width: 540px) {
+  .main-content {
+    padding-top: 64px;
+  }
+}
 </style>

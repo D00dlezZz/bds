@@ -1,6 +1,10 @@
 <script setup>
 import {computed, ref} from 'vue'
-import { Carousel, Slide, Navigation as CarouselNavigation } from 'vue3-carousel'
+import { Carousel, Slide, Navigation as CarouselNavigation } from 'vue3-carousel';
+
+defineProps({
+  isMobile: true
+})
 
 const designations = ref([
   { title: 'Матч-центр', text: 'таблицы, расписание и тп' },
@@ -48,9 +52,10 @@ function chunkArray(arr, chunkSize) {
 </script>
 
 <template>
+<div class="covering-info-wrap">
   <div class="covering-info">
     <h4>ОБОЗНАЧЕНИЯ</h4>
-    <Carousel v-bind="carouselConfig">
+    <Carousel v-bind="carouselConfig" v-if="!isMobile">
       <Slide v-for="(block, blockIdx) in normalizedDesignations" :key="blockIdx">
         <div class="designation-col">
           <div v-for="(designation, idx) in block" :key="idx" class="designation">
@@ -66,7 +71,7 @@ function chunkArray(arr, chunkSize) {
         <CarouselNavigation/>
       </template>
     </Carousel>
-    <div>
+    <div v-if="isMobile">
       <ul class="designation-list">
         <li v-for="(item, idx) in displayedDesignations" :key="idx" class="designation">
           <span class="dot"></span>
@@ -76,22 +81,23 @@ function chunkArray(arr, chunkSize) {
         </span>
         </li>
       </ul>
-      <button
-          class="show-more-btn"
-          v-if="!showAll"
-          @click="toggleShowAll"
-      >
-        ПОКАЗАТЬ ВСЕ
-      </button>
-      <button
-          class="show-more-btn"
-          v-else
-          @click="toggleShowAll"
-      >
-        СКРЫТЬ
-      </button>
     </div>
   </div>
+  <button
+      class="show-more-btn"
+      v-if="!showAll && isMobile"
+      @click="toggleShowAll"
+  >
+    ПОКАЗАТЬ ВСЕ
+  </button>
+  <button
+      class="show-more-btn"
+      v-if="showAll && isMobile"
+      @click="toggleShowAll"
+  >
+    СКРЫТЬ
+  </button>
+</div>
 </template>
 
 <style scoped>
@@ -170,6 +176,36 @@ h4 {
 
 :global(.carousel__prev) {
   margin-left: 95%;
+}
+
+.designation-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+}
+
+button {
+  background: linear-gradient(90deg,#69A1A2, #D8B782);
+  font-size: 16px;
+  color: black;
+  padding: 12px 44px;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: none;
+}
+
+@media screen and (max-width: 540px){
+  h4 {
+    margin-bottom: 0;
+    font-size: 24px;
+  }
+
+  .covering-info {
+    gap: 24px;
+    padding-left: 24px;
+  }
 }
 
 </style>

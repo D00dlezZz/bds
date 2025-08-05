@@ -2,6 +2,11 @@
 import {ref} from 'vue'
 import IconDone from "@/components/icons/IconDone.vue"
 import IconArrow from "@/components/icons/IconArrow.vue";
+import IconTab from "@/components/icons/IconTab.vue";
+
+defineProps({
+  isMobile: true
+})
 
 const columns = [
   'Матч-центр', 'Тайм<br>лайн', 'Составы', 'Стат. игр',
@@ -68,6 +73,10 @@ function toggle(country) {
 </script>
 
 <template>
+  <div class="info-text" v-if="isMobile">
+    <p>Таблица прокручивается вбок</p>
+    <IconTab/>
+  </div>
   <div class="country-table">
     <table>
       <thead>
@@ -80,20 +89,21 @@ function toggle(country) {
       </thead>
       <tbody>
       <template v-for="country in countries" :key="country.name">
-        <tr @click="toggle(country)">
-          <td class="country-header-td" :colspan="columns.length + 1">
+        <tr @click="toggle(country)" class="test">
+          <td class="country-header-td" :colspan="!isMobile ? columns.length + 1 : 0">
             <div class="td-content">
               <IconArrow :class="{ open: country.open }"/>
               <img class="flag" :src="country.icon" :alt="country.name"/>
               <span class="country-title">{{ country.name }}</span>
             </div>
           </td>
+          <td v-if="isMobile" v-for="i in columns.length" :key="i" class="empty-td"></td>
         </tr>
         <tr
-            v-for="league in country.leagues"
+            v-for="(league, index) in country.leagues"
             :key="league.name"
             v-show="country.open"
-            class="league-row"
+            :class="['league-row', { even: index % 2 === 0 }]"
         >
           <td class="league-col">{{ league.name }}</td>
           <td
@@ -159,6 +169,10 @@ th {
   background: #29263a;
 }
 
+.empty-td {
+  background: #1A1824;
+}
+
 .td-content {
   display: flex;
   align-items: center;
@@ -171,13 +185,11 @@ th {
   font-size: 16px;
 }
 
-.league-row {
-  background: #15131D;
-}
+.league-row { background: #15131D; }
+.league-row.even { background: #0B0A0F; }
 
-.league-row:nth-child(even) {
-  background: #0B0A0F;
-}
+.league-row > .league-col { background: #15131D; }
+.league-row.even > .league-col { background: #0B0A0F; }
 
 .league-row:hover {
   background: #3C3B3F;
@@ -219,4 +231,38 @@ th {
   transition: transform 0.2s;
 }
 
+
+.info-text {
+  color: #B5B5B7;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 27px;
+}
+
+@media screen and (max-width: 540px) {
+  .country-table {
+    overflow-x: auto;
+  }
+
+  th.league-col, td.league-col {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+  }
+
+  .league-col {
+    background: #0B0A0F;
+  }
+
+  td.country-header-td {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+  }
+
+}
 </style>

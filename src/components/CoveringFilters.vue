@@ -15,12 +15,15 @@ const sportFilters = ref(
     ]
 )
 
+
+defineProps({
+  isMobile: true
+})
+
 const itemsToShow = 6;
 const selectedFilter = ref(sportFilters.value[0]);
-const width = ref(window.innerWidth);
 const isDropdownOpen = ref(false);
 
-const isMobile = computed(() => width.value <= 540);
 const showNavigation = computed(() => sportFilters.value.length > itemsToShow);
 const filteredSportFilters = computed(() =>
     sportFilters.value.filter(filter => filter.id !== selectedFilter.value.id)
@@ -36,22 +39,10 @@ const carouselConfig = {
 
 const selectFilter = (filter) => selectedFilter.value = filter;
 
-function updateSize() {
-  width.value = window.innerWidth;
-}
-
 function handleMobileSelectFilter(filter) {
   selectFilter(filter)
   isDropdownOpen.value = false;
 }
-
-onMounted(() => {
-  window.addEventListener('resize', updateSize);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', updateSize);
-});
 </script>
 
 <template>
@@ -196,6 +187,7 @@ onUnmounted(() => {
   z-index: 10;
   overflow: hidden;
   border: 1px solid #797B8A;
+  padding: 12px 0;
 }
 
 .mobile-filter__item {
@@ -225,10 +217,11 @@ onUnmounted(() => {
   transform: translateY(-10px);
 }
 
+
 @media screen and (max-width: 540px){
   .filters-container {
-    padding: 0 27px;
     gap: 32px;
+    padding: 20px 0 0 0;
   }
 }
 </style>
