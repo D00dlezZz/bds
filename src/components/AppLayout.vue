@@ -7,11 +7,11 @@ import Footer from "@/components/Footer.vue";
   <div class="base-layout">
     <div class="background-area">
       <div class="bg-image"></div>
-        <Header />
-        <div class="main-content">
-          <slot />
-        </div>
-        <Footer/>
+      <Header />
+      <div class="main-content">
+        <slot />
+      </div>
+      <Footer/>
     </div>
   </div>
 </template>
@@ -34,27 +34,22 @@ import Footer from "@/components/Footer.vue";
 
 .bg-image {
   position: absolute;
+  height: 100vh;
   inset: 0;
   z-index: 0;
-  background: url('../assets/background.png') no-repeat;
-  background-size: contain;
+  background:
+      linear-gradient(
+          to bottom,
+          rgba(0,0,0,0) 60%,
+          rgba(11,10,15,0.92) 88%,
+          #000 100%
+      ),
+      url('../assets/background.png') center/cover no-repeat;
   opacity: 0.6;
   top: 0;
   left: 0;
 }
 
-.bg-image::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-      ellipse at bottom,
-      transparent 1%,
-      #000 100%
-  );
-  opacity: 0.6;
-}
 
 .main-content {
   position: relative;
