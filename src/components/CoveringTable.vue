@@ -119,7 +119,7 @@ th {
   font-size: 20px;
   position: relative;
   background: #1A1824;
-  padding: 22px 18px;
+  padding: 20px 18px;
   border-bottom: 1px solid #232030;
   cursor: pointer;
   transition: background 0.2s;

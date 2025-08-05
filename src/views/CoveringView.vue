@@ -1,5 +1,4 @@
 <script setup>
-
 import CoveringInfo from "@/components/CoveringInfo.vue";
 import CoveringFilters from "@/components/CoveringFilters.vue";
 import CoveringTable from "@/components/CoveringTable.vue";

@@ -217,4 +217,19 @@ function clearAll() {
   background: #4A4C56;
 }
 
+
+@media screen and (max-width: 540px){
+  .country-select {
+    width: 100% ;
+  }
+
+  .dropdown-header {
+    width: 100%;
+  }
+
+  .dropdown {
+    max-width: 100%;
+  }
+}
+
 </style>
