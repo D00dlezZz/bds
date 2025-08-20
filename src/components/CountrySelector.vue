@@ -1,29 +1,25 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import {mainStore} from "@/store/main.js";
+import { storeToRefs } from 'pinia';
 import CustomCheckbox from "@/components/ui/CustomCheckbox.vue";
 import IconArrow from "@/components/icons/IconArrow.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 import IconClose from "@/components/icons/IconClose.vue";
 
-const countries = ref([
-  { label: 'Россия', code: 'ru' },
-  { label: 'Германия', code: 'de' },
-  { label: 'Англия', code: 'gb' },
-  { label: 'Албания', code: 'al' }
-]);
+const {countries, selectedFilters} = storeToRefs(mainStore())
 
 const search = ref('');
 const showDropdown = ref(false);
 
 const tempSelectedCountries = ref([]);
-const confirmedSelectedCountries = ref([]);
 
 const countrySelectRef = ref(null);
 
 const filteredCountries = computed(() => {
   if (!search.value) return countries.value;
   return countries.value.filter(c =>
-      c.label.toLowerCase().includes(search.value.toLowerCase())
+      c.title.toLowerCase().includes(search.value.toLowerCase())
   );
 });
 
@@ -37,23 +33,29 @@ function toggleCountry(country) {
 }
 
 function removeCountry(code) {
-  confirmedSelectedCountries.value = confirmedSelectedCountries.value.filter(c => c.code !== code);
+  selectedFilters.value.countries = selectedFilters.value.countries.filter(c => c.code !== code);
   tempSelectedCountries.value = tempSelectedCountries.value.filter(c => c.code !== code);
 }
 
 function clearAll() {
   tempSelectedCountries.value = [];
-  confirmedSelectedCountries.value = [];
+  selectedFilters.value.countries = [];
 }
 
+async function clearAndFetch() {
+  tempSelectedCountries.value = [];
+  selectedFilters.value.countries = [];
+  await mainStore().fetchCoverage()
+}
 function openDropdown() {
-  tempSelectedCountries.value = [...confirmedSelectedCountries.value];
+  tempSelectedCountries.value = [...selectedFilters.value.countries];
   showDropdown.value = true;
 }
 
-function applySelection() {
-  confirmedSelectedCountries.value = [...tempSelectedCountries.value];
+async function applySelection() {
+  selectedFilters.value.countries = [...tempSelectedCountries.value];
   showDropdown.value = false;
+ await mainStore().fetchCoverage()
 }
 
 function handleClickOutside(event) {
@@ -83,12 +85,12 @@ onUnmounted(() => {
       <IconArrow class="arrow" :class="{ open: showDropdown }" />
     </div>
 
-    <div class="tags-wrapper" v-if="confirmedSelectedCountries.length">
-      <span class="tag" v-for="c in confirmedSelectedCountries" :key="c.code">
-        {{ c.label }}
+    <div class="tags-wrapper" v-if="selectedFilters.countries.length">
+      <span class="tag" v-for="c in selectedFilters.countries" :key="c.code">
+        {{ c.title }}
         <IconClose class="remove-tag" @click.stop="removeCountry(c.code)" />
       </span>
-      <span class="clear-all" @click="clearAll">СБРОСИТЬ ВСЕ</span>
+      <span class="clear-all" @click="clearAndFetch">СБРОСИТЬ ВСЕ</span>
     </div>
 
     <transition name="dropdown">
@@ -116,7 +118,7 @@ onUnmounted(() => {
             >
               <div class="country-cell">
                 <i class="flag" :class="[`flag-${c.code}`]"></i>
-                {{ c.label }}
+                {{ c.title }}
               </div>
             </CustomCheckbox>
           </div>

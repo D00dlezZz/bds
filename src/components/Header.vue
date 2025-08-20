@@ -23,7 +23,7 @@ watch(isDropdownOpen, (open) => {
       <li>Бродкастерам</li>
       <li>Продукты</li>
       <li>Связаться</li>
-      <li>EN/RU</li>
+      <li>RU</li>
     </ul>
     <div class="dropdown">
       <div class="dropdown__btn" @click="isDropdownOpen = !isDropdownOpen">

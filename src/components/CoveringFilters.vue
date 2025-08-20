@@ -1,31 +1,34 @@
 <script setup>
 import { Carousel, Slide, Navigation as CarouselNavigation } from 'vue3-carousel'
-import {ref, computed, defineAsyncComponent, onMounted, onUnmounted, markRaw, toRef} from 'vue'
+import {ref, computed, defineAsyncComponent, onMounted, markRaw} from 'vue'
+import {mainStore} from "@/store/main.js";
+import { storeToRefs } from 'pinia';
 import CountrySelector from "@/components/CountrySelector.vue";
 import IconArrow from "@/components/icons/IconArrow.vue";
-
-const sportFilters = ref(
-    [
-      { id: 1, title: 'Футбол', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconFootball.vue'))) },
-      { id: 2, title: 'Хоккей', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconHockey.vue'))) },
-      { id: 3, title: 'Баскетбол', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconBasketball.vue'))) },
-      { id: 4, title: 'Теннис', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconTennis.vue'))) },
-      { id: 5, title: 'Регби', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconRugby.vue'))) },
-      { id: 6, title: 'Волейбол', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconVolleyball.vue'))) },
-    ]
-)
 
 defineProps({
   isMobile: false,
 });
 
+const { selectedFilters } = storeToRefs(mainStore())
+
+const sportFilters = ref(
+    [
+      { id: 1, title: 'Футбол', value: 'football', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconFootball.vue'))) },
+      { id: 2, title: 'Хоккей', value: 'hockey', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconHockey.vue'))) },
+      { id: 3, title: 'Баскетбол', value: 'basketball', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconBasketball.vue'))) },
+      { id: 4, title: 'Теннис', value: 'tennis', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconTennis.vue'))) },
+      { id: 5, title: 'Регби', value: 'rugby', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconRugby.vue'))) },
+      { id: 6, title: 'Волейбол', value: 'volleyball', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconVolleyball.vue'))) },
+    ]
+)
+
 const itemsToShow = ref(6);
-const selectedFilter = ref(sportFilters.value[0]);
 const isDropdownOpen = ref(false);
 
 const showNavigation = computed(() => sportFilters.value.length > itemsToShow.value);
 const filteredSportFilters = computed(() =>
-    sportFilters.value.filter(filter => filter.id !== selectedFilter.value.id)
+    selectedFilters.value.sport.filter(filter => filter.id !== selectedFilters.value.sport.id)
 )
 
 const carouselConfig = {
@@ -33,7 +36,7 @@ const carouselConfig = {
   itemsToScroll: 1,
   wrapAround: false,
   snapAlign: 'center',
-  gap: 24,
+  gap: 20,
   mouseDrag: false,
   breakpoints: {
     1200: { itemsToShow: 3 },
@@ -43,12 +46,22 @@ const carouselConfig = {
 }
 
 
-const selectFilter = (filter) => selectedFilter.value = filter;
+const selectFilter = async (filter) => {
+  if (selectedFilters.value.sport.value == filter.value) return;
+  selectedFilters.value.sport = filter;
+  await mainStore().fetchCoverage()
+};
 
 function handleMobileSelectFilter(filter) {
   selectFilter(filter)
   isDropdownOpen.value = false;
 }
+
+onMounted(async () => {
+  await mainStore().fetchCountries();
+  selectedFilters.value.sport = sportFilters.value[0];
+  await mainStore().fetchCoverage()
+})
 </script>
 
 <template>
@@ -56,7 +69,7 @@ function handleMobileSelectFilter(filter) {
     <div class="filters-carousel">
       <Carousel v-if="!isMobile" v-bind="carouselConfig">
         <Slide v-for="slide in sportFilters" :key="slide.id" @click="selectFilter(slide)">
-          <div class="carousel__item" :class="selectedFilter.id === slide.id ? 'active' : ''">
+          <div class="carousel__item" :class="selectedFilters.sport.id === slide.id ? 'active' : ''">
             <component :is="slide.iconComponent" />
           </div>
         </Slide>
@@ -67,8 +80,8 @@ function handleMobileSelectFilter(filter) {
     </div>
     <div class="mobile-filter" v-if="isMobile">
       <div class="mobile-filter__selected" @click="isDropdownOpen = !isDropdownOpen">
-        <component :is="selectedFilter.iconComponent" class="icon" />
-        <span class="title">{{ selectedFilter.title }}</span>
+        <component :is="selectedFilters.sport.iconComponent" class="icon" />
+        <span class="title">{{ selectedFilters.sport.title }}</span>
         <IconArrow class="arrow" :class="{ open: isDropdownOpen }"/>
       </div>
       <transition name="dropdown">
