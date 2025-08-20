@@ -3,6 +3,7 @@ import {ref} from "vue";
 
 export const mainStore = defineStore('mainStore', () => {
     const countries = ref([]);
+    const coverage = ref([]);
     const selectedFilters = ref({
         countries: [],
         sport: {}
@@ -47,7 +48,11 @@ export const mainStore = defineStore('mainStore', () => {
                 }
             });
             const data = await response.json();
-            console.log(data);
+            coverage.value = data.data.map((item, index) => ({
+                ...item,
+                isOpen: index < 3
+            }));
+            console.log(coverage.value)
         }catch (e) {
             console.error(e);
         }
@@ -56,6 +61,7 @@ export const mainStore = defineStore('mainStore', () => {
     return {
         selectedFilters,
         countries,
+        coverage,
         fetchCountries,
         fetchCoverage
     }

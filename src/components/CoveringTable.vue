@@ -1,5 +1,6 @@
 <script setup>
-import {ref} from 'vue'
+import {mainStore} from "@/store/main.js";
+import { storeToRefs } from 'pinia';
 import IconDone from "@/components/icons/IconDone.vue"
 import IconArrow from "@/components/icons/IconArrow.vue";
 import IconTab from "@/components/icons/IconTab.vue";
@@ -8,67 +9,16 @@ defineProps({
   isMobile: true
 })
 
+const {coverage} = storeToRefs(mainStore());
+
 const columns = [
   'Матч-центр', 'Тайм<br>лайн', 'Составы', 'Стат. игр',
   'Арбитры', 'Коэф.', 'Прогнозы', 'СР. знач.',
   'Обог. контент', 'Тренды и серии'
 ]
 
-const countries = ref([
-  {
-    name: 'Албания',
-    icon: '',
-    open: true,
-    leagues: [
-      {name: '1st Division', features: [1, 1, 1, 1, 0, 0, 1, 1, 0, 0]},
-      {name: '2nd Division - Group A', features: [1, 1, 0, 1, 0, 1, 0, 1, 1, 0]},
-      {name: '3nd Division - Group A', features: [0, 1, 1, 0, 0, 1, 1, 0, 0, 1]},
-    ]
-  },
-  {
-    name: 'Алжир',
-    icon: './assets/icons/albania.svg',
-    open: true,
-    leagues: [
-      {name: '1st Division', features: [1, 1, 1, 1, 0, 0, 1, 1, 0, 0]},
-      {name: '2nd Division - Group A', features: [1, 1, 0, 0, 0, 1, 0, 1, 1, 0]},
-      {name: '3nd Division - Group A', features: [0, 1, 1, 0, 0, 1, 1, 0, 0, 1]},
-    ]
-  },
-  {
-    name: 'Андорра',
-    icon: './assets/icons/albania.svg',
-    open: true,
-    leagues: [
-      {name: '1st Division', features: [1, 1, 1, 1, 0, 0, 1, 1, 0, 0]},
-      {name: '2nd Division - Group A', features: [1, 1, 0, 0, 1, 1, 0, 1, 1, 0]},
-      {name: '3nd Division - Group A', features: [0, 1, 1, 0, 0, 1, 1, 0, 0, 1]},
-    ]
-  },
-  {
-    name: 'Ангола',
-    icon: './assets/icons/albania.svg',
-    open: false,
-    leagues: [
-      {name: '1st Division', features: [1, 1, 1, 1, 0, 0, 1, 1, 0, 0]},
-      {name: '2nd Division - Group A', features: [1, 1, 0, 0, 0, 1, 0, 1, 1, 0]},
-      {name: '3nd Division - Group A', features: [0, 1, 1, 0, 0, 1, 1, 0, 0, 1]},
-    ]
-  },
-  {
-    name: 'Аргентина',
-    icon: './assets/icons/albania.svg',
-    open: false,
-    leagues: [
-      {name: '1st Division', features: [1, 1, 1, 1, 0, 0, 1, 1, 0, 0]},
-      {name: '2nd Division - Group A', features: [1, 1, 0, 0, 1, 1, 0, 1, 1, 0]},
-      {name: '3nd Division - Group A', features: [0, 1, 1, 0, 0, 1, 1, 0, 0, 1]},
-    ]
-  },
-])
-
 function toggle(country) {
-  country.open = !country.open
+  country.isOpen = !country.isOpen
 }
 </script>
 
@@ -87,36 +37,37 @@ function toggle(country) {
         </th>
       </tr>
       </thead>
-      <tbody>
-      <template v-for="country in countries" :key="country.name">
+      <tbody v-if="coverage.length">
+      <template v-for="country in coverage" :key="country.country_id">
         <tr @click="toggle(country)">
           <td class="country-header-td" :colspan="!isMobile ? columns.length + 1 : 0">
             <div class="td-content">
-              <IconArrow :class="{ open: country.open }"/>
-              <img class="flag" :src="country.icon" :alt="country.name"/>
-              <span class="country-title">{{ country.name }}</span>
+              <IconArrow :class="{ open: country.isOpen }"/>
+              <img class="flag" :src="country.country_flag" :alt="country.country_title_ru"/>
+              <span class="country-title">{{ country.country_title_ru ?? country.country_title }}</span>
             </div>
           </td>
           <td v-if="isMobile" v-for="i in columns.length" :key="i" class="empty-td"></td>
         </tr>
         <tr
-            v-for="(league, index) in country.leagues"
-            :key="league.name"
-            v-show="country.open"
+            v-for="(competition, index) in country.competitions"
+            :key="competition.competition_id"
+            v-show="country.isOpen"
             :class="['league-row', { even: index % 2 === 0 }]"
         >
-          <td class="league-col">{{ league.name }}</td>
+          <td class="league-col">{{ competition.competition_title_ru ?? competition.competition_title }}</td>
           <td
-              v-for="(val, fIdx) in league.features"
+              v-for="(val, fIdx) in competition.coverage"
               :key="fIdx"
               class="feature-cell"
           >
-            <IconDone v-if="val"/>
+            <IconDone v-if="val.flag"/>
           </td>
         </tr>
       </template>
       </tbody>
     </table>
+    <p v-if="!coverage.length" class="empty-text">Таблица пустая. Попробуйте другие фильтры</p>
   </div>
 </template>
 
@@ -279,5 +230,11 @@ th {
     font-size: 8px;
   }
 
+}
+.empty-text {
+  color: #FFFFFF;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 20px;
 }
 </style>

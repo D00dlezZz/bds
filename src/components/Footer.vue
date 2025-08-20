@@ -1,24 +1,21 @@
 <script setup>
-
 import Logo from "@/assets/icons/Logo.vue";
-import IconTelegram from "@/components/icons/IconTelegram.vue";
-import IconTwitter from "@/components/icons/IconTwitter.vue";
 import IconMail from "@/components/icons/IconMail.vue";
 </script>
 
 <template>
 <div class="footer">
-  <div class="footer-main">
-    <Logo/>
-    <div class="social">
-      <IconTelegram/>
-      <IconTwitter/>
-      <IconMail/>
+  <div class="footer-wrap">
+    <div class="footer-main">
+      <Logo/>
+      <div class="social">
+        <IconMail/>
+      </div>
     </div>
-  </div>
-  <div class="info">
-    <p class="ref">© 2025   bigdata.sports</p>
-    <button>запросить демо</button>
+    <div class="info">
+      <p class="ref">© 2025   bigdata.sports</p>
+      <button>запросить демо</button>
+    </div>
   </div>
 </div>
 </template>
@@ -26,15 +23,19 @@ import IconMail from "@/components/icons/IconMail.vue";
 <style scoped>
 .footer {
   background: #302A50;
-  padding: 32px;
   z-index: 5;
+  padding: 32px;
 }
 
+.footer-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+}
 .footer-main {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding-bottom: 24px;
+  padding-bottom: 80px;
   border-bottom: 1px solid #B5B5B7;
 }
 
