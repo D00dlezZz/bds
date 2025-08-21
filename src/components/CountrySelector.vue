@@ -17,10 +17,21 @@ const tempSelectedCountries = ref([]);
 const countrySelectRef = ref(null);
 
 const filteredCountries = computed(() => {
-  if (!search.value) return countries.value;
-  return countries.value.filter(c =>
-      c.title.toLowerCase().includes(search.value.toLowerCase())
-  );
+  let result = countries.value;
+  if (search.value) {
+    result = result.filter(c =>
+        c.title.toLowerCase().includes(search.value.toLowerCase())
+    );
+  }
+  const unique = [];
+  const seen = new Set();
+  for (const c of result) {
+    if (!seen.has(c.title)) {
+      unique.push(c);
+      seen.add(c.title);
+    }
+  }
+  return unique;
 });
 
 function toggleCountry(country) {
@@ -86,7 +97,7 @@ onUnmounted(() => {
     </div>
 
     <div class="tags-wrapper" v-if="selectedFilters.countries.length">
-      <span class="tag" v-for="c in selectedFilters.countries" :key="c.code">
+      <span class="tag" v-for="c in selectedFilters.countries" :key="c.title">
         {{ c.title }}
         <IconClose class="remove-tag" @click.stop="removeCountry(c.code)" />
       </span>
@@ -109,7 +120,7 @@ onUnmounted(() => {
           <div
               class="country-row"
               v-for="c in filteredCountries"
-              :key="c.code"
+              :key="c.title"
               @click.stop="toggleCountry(c)"
           >
             <CustomCheckbox

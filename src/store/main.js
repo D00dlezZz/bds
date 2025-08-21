@@ -22,8 +22,7 @@ export const mainStore = defineStore('mainStore', () => {
                 }
             });
             const data = await response.json();
-            countries.value = data.data.countries;
-            console.log(countries.value)
+            countries.value = data.data.countries.sort((a, b) => a.title.localeCompare(b.title));;
         }catch (e) {
             console.error(e);
         }
@@ -53,7 +52,6 @@ export const mainStore = defineStore('mainStore', () => {
                 ...item,
                 isOpen: index < 3
             }));
-            console.log(coverage.value)
         }catch (e) {
             console.error(e);
         }
