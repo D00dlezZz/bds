@@ -45,7 +45,7 @@ const columns = [
     value: 'avg'
   },
   {
-    title: 'Обог. контент',
+    title: 'Extra-контент',
     value: 'extra'
   },
   {

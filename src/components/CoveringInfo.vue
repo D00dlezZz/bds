@@ -7,16 +7,16 @@ defineProps({
 })
 
 const designations = ref([
-  { title: 'Матч-центр', text: 'таблицы, расписание и тп' },
-  { title: 'Стат. игр', text: 'статистика игроков по матчам и турнирам' },
-  { title: 'Ср. знач.', text: 'средние значения команды в турнире' },
-  { title: 'Составы', text: 'таблицы, расписание и тп' },
-  { title: 'Арбитры', text: 'статистика игроков по матчам и турнирам' },
-  { title: 'Коэфф.', text: 'средние значения команды в турнире' },
+  { title: 'Матч-центр', text: 'расписание, таблицы, базовая информация о матче' },
+  { title: 'Таймлайн', text: 'ключевые события матча (голы, карточки и тп)' },
+  { title: 'Составы', text: null },
+  { title: 'Статистика игр', text: 'расширенная статистика по матчу (угловые, фолы, удары и тп)' },
+  { title: 'Арбитры', text: 'статистика рефери по турнирам (ЖК, фолы, пенальти и т.п.)' },
+  { title: 'Коэффициенты', text: null },
   { title: 'Прогнозы', text: 'прематч и лайв AI-прогнозы по статистике' },
-  { title: 'СР. знач.', text: 'средние значения команды в турнире' },
-  { title: 'Обог. контент', text: 'средние значения команды в турнире' },
-  { title: 'Тренды и серии.', text: 'ценные факты для ставочной аудитории' },
+  { title: 'Средние значения', text: null },
+  { title: 'Extra-контент', text: 'трансферная стоимость, xG, погода, ссылки и другая редкая информаци' },
+  { title: 'Тренды и серии ', text: 'ценные факты для ставочной аудитории' },
 ]);
 
 const normalizedDesignations = ref(chunkArray(
@@ -63,7 +63,7 @@ function chunkArray(arr, chunkSize) {
             <span class="dot"></span>
             <p class="designation-title">
               {{ designation.title }}
-              <span class="designation-text"> - {{ designation.text }}</span>
+              <span class="designation-text" v-if="designation.text"> - {{ designation.text }}</span>
             </p>
           </div>
         </div>
@@ -78,7 +78,7 @@ function chunkArray(arr, chunkSize) {
           <span class="dot"></span>
           <span>
           <span class="designation-title">{{ item.title }}</span>
-          <span class="designation-text"> - {{ item.text }}</span>
+          <span class="designation-text" v-if="item.text"> - {{ item.text }}</span>
         </span>
         </li>
       </ul>
