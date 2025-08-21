@@ -15,14 +15,31 @@ watch(isDropdownOpen, (open) => {
 
 <template>
   <div class="header">
-    <Logo/>
+    <a href="https://bigdatasports.io/" target="_blank">
+      <Logo/>
+    </a>
     <ul class="navbar">
       <li>Покрытие</li>
-      <li>Букмекерам</li>
-      <li>Медиа</li>
-      <li>Бродкастерам</li>
-      <li>Продукты</li>
-      <li>Связаться</li>
+      <li>
+        <a href="https://bigdatasports.io/bookmakers" target="_blank">
+          Букмекерам
+        </a>
+      </li>
+      <li>
+        <a href="https://bigdatasports.io/media" target="_blank">
+          Медиа
+        </a>
+      </li>
+      <li>
+        <a href="https://bigdatasports.io/broadcasters" target="_blank">
+          Бродкастерам
+        </a>
+      </li>
+      <li>
+        <a href="https://bigdatasports.io/product" target="_blank">
+          Продукты
+        </a>
+        </li>
       <li>RU</li>
     </ul>
     <div class="dropdown">
@@ -196,6 +213,10 @@ watch(isDropdownOpen, (open) => {
   -webkit-transform: rotate(45deg) translate(0, 0);
   -ms-transform: rotate(45deg) translate(0, 0);
   transform: rotate(45deg) translate(0, 0);
+}
+
+a {
+  color: #FFFFFF;
 }
 
 @media screen and (max-width: 1100px) {

@@ -9,12 +9,13 @@ import IconMail from "@/components/icons/IconMail.vue";
     <div class="footer-main">
       <Logo/>
       <div class="social">
-        <IconMail/>
+        <a href="mailto:ab@bigdatasports.io" target="_blank">
+          <IconMail/>
+        </a>
       </div>
     </div>
     <div class="info">
       <p class="ref">© 2025   bigdata.sports</p>
-      <button>запросить демо</button>
     </div>
   </div>
 </div>

@@ -14,12 +14,12 @@ const { selectedFilters } = storeToRefs(mainStore())
 
 const sportFilters = ref(
     [
-      { id: 1, title: 'Футбол', value: 'football', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconFootball.vue'))) },
-      { id: 2, title: 'Хоккей', value: 'hockey', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconHockey.vue'))) },
-      { id: 3, title: 'Баскетбол', value: 'basketball', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconBasketball.vue'))) },
-      { id: 4, title: 'Теннис', value: 'tennis', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconTennis.vue'))) },
-      { id: 5, title: 'Регби', value: 'rugby', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconRugby.vue'))) },
-      { id: 6, title: 'Волейбол', value: 'volleyball', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconVolleyball.vue'))) },
+      { id: 1, title: 'Футбол', value: 'football', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconFootball.vue'))) },
+      { id: 2, title: 'Хоккей', value: 'hockey', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconHockey.vue'))) },
+      { id: 3, title: 'Баскетбол', value: 'basketball', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconBasketball.vue'))) },
+      { id: 4, title: 'Теннис', value: 'tennis', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconTennis.vue'))) },
+      { id: 5, title: 'Регби', value: 'rugby', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconRugby.vue'))) },
+      { id: 6, title: 'Волейбол', value: 'volleyball', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconVolleyball.vue'))) },
     ]
 )
 
@@ -27,9 +27,9 @@ const itemsToShow = ref(6);
 const isDropdownOpen = ref(false);
 
 const showNavigation = computed(() => sportFilters.value.length > itemsToShow.value);
-const filteredSportFilters = computed(() =>
-    selectedFilters.value.sport.filter(filter => filter.id !== selectedFilters.value.sport.id)
-)
+const filteredSportFilters = computed(() => {
+  return  sportFilters.value.filter(filter => filter.id !== selectedFilters.value.sport.id)
+})
 
 const carouselConfig = {
   itemsToShow: 6,
@@ -47,7 +47,7 @@ const carouselConfig = {
 
 
 const selectFilter = async (filter) => {
-  if (selectedFilters.value.sport.value == filter.value) return;
+  if (selectedFilters.value.sport.value == filter.value || filter.status === 'disabled') return;
   selectedFilters.value.sport = filter;
   await mainStore().fetchCoverage()
 };
@@ -69,7 +69,7 @@ onMounted(async () => {
     <div class="filters-carousel">
       <Carousel v-if="!isMobile" v-bind="carouselConfig">
         <Slide v-for="slide in sportFilters" :key="slide.id" @click="selectFilter(slide)">
-          <div class="carousel__item" :class="selectedFilters.sport.id === slide.id ? 'active' : ''">
+          <div class="carousel__item" :class="selectedFilters.sport.id === slide.id ? 'active' : 'disabled'">
             <component :is="slide.iconComponent" />
           </div>
         </Slide>
@@ -90,6 +90,7 @@ onMounted(async () => {
               v-for="filter in filteredSportFilters"
               :key="filter.id"
               class="mobile-filter__item"
+              :class="selectedFilters.sport.id === filter.id ? '' : 'disabled'"
               @click="handleMobileSelectFilter(filter)"
           >
             <component :is="filter.iconComponent" class="dropdown-icon" />
@@ -243,6 +244,10 @@ onMounted(async () => {
   transform: translateY(-10px);
 }
 
+
+.disabled {
+  opacity: 0.5;
+}
 @media screen and (max-width: 540px){
   .filters-container {
     gap: 32px;

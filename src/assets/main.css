@@ -25,3 +25,8 @@ html, body, #app {
 .carousel__prev--disabled {
     display: none !important;
 }
+
+
+a {
+    text-decoration: none;
+}

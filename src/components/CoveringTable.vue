@@ -12,9 +12,46 @@ defineProps({
 const {coverage} = storeToRefs(mainStore());
 
 const columns = [
-  'Матч-центр', 'Тайм<br>лайн', 'Составы', 'Стат. игр',
-  'Арбитры', 'Коэф.', 'Прогнозы', 'СР. знач.',
-  'Обог. контент', 'Тренды и серии'
+  {
+    title: "Матч-центр",
+    value: 'match_center'
+  },
+  {
+    title: 'Тайм<br>лайн',
+    value: 'timeline'
+  },
+  {
+    title: "Составы",
+    value: "players"
+  },
+  {
+   title: 'Стат. игр',
+   value: 'stats'
+  },
+  {
+    title: 'Арбитры',
+    value: 'referees'
+  },
+  {
+    title: 'Коэф',
+    value: 'odds_1x2'
+  },
+  {
+    title: 'Прогнозы',
+    value: 'predictions'
+  },
+  {
+    title: 'СР. знач.',
+    value: 'avg'
+  },
+  {
+    title: 'Обог. контент',
+    value: 'extra'
+  },
+  {
+    title: 'Тренды и серии',
+    value: 'trends'
+  }
 ]
 
 function toggle(country) {
@@ -33,7 +70,7 @@ function toggle(country) {
       <tr>
         <th class="league-col"></th>
         <th v-for="(col, idx) in columns" :key="idx">
-          <span v-html="col"></span>
+          <span v-html="col.title"></span>
         </th>
       </tr>
       </thead>
@@ -77,7 +114,6 @@ function toggle(country) {
   background: transparent;
   width: 100%;
   overflow: hidden;
-
 }
 
 table {

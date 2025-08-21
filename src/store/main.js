@@ -23,6 +23,7 @@ export const mainStore = defineStore('mainStore', () => {
             });
             const data = await response.json();
             countries.value = data.data.countries;
+            console.log(countries.value)
         }catch (e) {
             console.error(e);
         }
