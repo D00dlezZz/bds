@@ -35,17 +35,17 @@ const filteredCountries = computed(() => {
 });
 
 function toggleCountry(country) {
-  const exists = tempSelectedCountries.value.find(c => c.code === country.code);
+  const exists = tempSelectedCountries.value.find(c => c.id === country.id);
   if (exists) {
-    tempSelectedCountries.value = tempSelectedCountries.value.filter(c => c.code !== country.code);
+    tempSelectedCountries.value = tempSelectedCountries.value.filter(c => c.id !== country.id);
   } else {
     tempSelectedCountries.value.push(country);
   }
 }
 
-function removeCountry(code) {
-  selectedFilters.value.countries = selectedFilters.value.countries.filter(c => c.code !== code);
-  tempSelectedCountries.value = tempSelectedCountries.value.filter(c => c.code !== code);
+function removeCountry(id) {
+  selectedFilters.value.countries = selectedFilters.value.countries.filter(c => c.id !== id);
+  tempSelectedCountries.value = tempSelectedCountries.value.filter(c => c.id !== id);
 }
 
 function clearAll() {
@@ -99,7 +99,7 @@ onUnmounted(() => {
     <div class="tags-wrapper" v-if="selectedFilters.countries.length">
       <span class="tag" v-for="c in selectedFilters.countries" :key="c.title">
         {{ c.title }}
-        <IconClose class="remove-tag" @click.stop="removeCountry(c.code)" />
+        <IconClose class="remove-tag" @click.stop="removeCountry(c.id)" />
       </span>
       <span class="clear-all" @click="clearAndFetch">СБРОСИТЬ ВСЕ</span>
     </div>
@@ -124,11 +124,11 @@ onUnmounted(() => {
               @click.stop="toggleCountry(c)"
           >
             <CustomCheckbox
-                :modelValue="!!tempSelectedCountries.find(sel => sel.code === c.code)"
+                :modelValue="!!tempSelectedCountries.find(sel => sel.id === c.id)"
                 @update:modelValue="() => toggleCountry(c)"
             >
               <div class="country-cell">
-                <i class="flag" :class="[`flag-${c.code}`]"></i>
+                <img class="flag" :src="c.logo" :alt="c.title">
                 {{ c.title }}
               </div>
             </CustomCheckbox>
