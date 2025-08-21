@@ -10,7 +10,9 @@ export const mainStore = defineStore('mainStore', () => {
     });
 
     async function fetchCountries() {
-        if (countries.value.length > 0) {
+        const cached = localStorage.getItem('countries');
+        if (cached) {
+            countries.value = JSON.parse(cached);
             return;
         }
         try {
@@ -22,8 +24,10 @@ export const mainStore = defineStore('mainStore', () => {
                 }
             });
             const data = await response.json();
-            countries.value = data.data.countries.sort((a, b) => a.title.localeCompare(b.title));;
-        }catch (e) {
+            const sorted = data.data.countries.sort((a, b) => a.title.localeCompare(b.title));
+            countries.value = sorted;
+            localStorage.setItem('countries', JSON.stringify(sorted));
+        } catch (e) {
             console.error(e);
         }
     }
