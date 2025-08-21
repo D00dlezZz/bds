@@ -10,11 +10,11 @@ export const mainStore = defineStore('mainStore', () => {
     });
 
     async function fetchCountries() {
-        // const cached = localStorage.getItem('countries');
-        // if (cached) {
-        //     countries.value = JSON.parse(cached);
-        //     return;
-        // }
+        const cached = localStorage.getItem('countries');
+        if (cached) {
+            countries.value = JSON.parse(cached);
+            return;
+        }
         try {
             const url = import.meta.env.VITE_API_URL + 'coverage/countries';
             const response = await fetch(url, {
@@ -24,10 +24,9 @@ export const mainStore = defineStore('mainStore', () => {
                 }
             });
             const data = await response.json();
-            console.log(data.data)
             const sorted = data.data.sort((a, b) => a.title.localeCompare(b.title));
             countries.value = sorted;
-            // localStorage.setItem('countries', JSON.stringify(sorted));
+            localStorage.setItem('countries', JSON.stringify(sorted));
         } catch (e) {
             console.error(e);
         }

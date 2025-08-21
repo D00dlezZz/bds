@@ -51,12 +51,27 @@ watch(isDropdownOpen, (open) => {
       </div>
       <ul class="dropdown__list" :class="{ active: isDropdownOpen }">
         <li>Покрытие</li>
-        <li>Букмекерам</li>
-        <li>Медиа</li>
-        <li>Бродкастерам</li>
-        <li>Продукты</li>
-        <li>Связаться</li>
-        <li>EN/RU</li>
+        <li>
+          <a href="https://bigdatasports.io/bookmakers" target="_blank">
+            Букмекерам
+          </a>
+        </li>
+        <li>
+          <a href="https://bigdatasports.io/media" target="_blank">
+            Медиа
+          </a>
+        </li>
+        <li>
+          <a href="https://bigdatasports.io/broadcasters" target="_blank">
+            Бродкастерам
+          </a>
+        </li>
+        <li>
+          <a href="https://bigdatasports.io/product" target="_blank">
+            Продукты
+          </a>
+        </li>
+        <li>RU</li>
       </ul>
     </div>
   </div>
