@@ -104,7 +104,7 @@ function toggle(country) {
       </template>
       </tbody>
     </table>
-    <p v-if="!coverage.length" class="empty-text">Таблица пустая. Попробуйте другие фильтры</p>
+    <p v-if="!coverage.length" class="empty-text">Покажем в ближайшее время</p>
   </div>
 </template>
 

@@ -43,9 +43,10 @@ function toggleCountry(country) {
   }
 }
 
-function removeCountry(id) {
+async function removeCountry(id) {
   selectedFilters.value.countries = selectedFilters.value.countries.filter(c => c.id !== id);
   tempSelectedCountries.value = tempSelectedCountries.value.filter(c => c.id !== id);
+  await mainStore().fetchCoverage()
 }
 
 function clearAll() {

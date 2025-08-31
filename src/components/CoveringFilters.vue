@@ -15,11 +15,11 @@ const { selectedFilters } = storeToRefs(mainStore())
 const sportFilters = ref(
     [
       { id: 1, title: 'Футбол', value: 'football', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconFootball.vue'))) },
-      { id: 2, title: 'Хоккей', value: 'hockey', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconHockey.vue'))) },
-      { id: 3, title: 'Баскетбол', value: 'basketball', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconBasketball.vue'))) },
-      { id: 4, title: 'Теннис', value: 'tennis', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconTennis.vue'))) },
-      { id: 5, title: 'Регби', value: 'rugby', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconRugby.vue'))) },
-      { id: 6, title: 'Волейбол', value: 'volleyball', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconVolleyball.vue'))) },
+      { id: 2, title: 'Хоккей', value: 'hockey', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconHockey.vue'))) },
+      { id: 3, title: 'Баскетбол', value: 'basketball', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconBasketball.vue'))) },
+      // { id: 4, title: 'Теннис', value: 'tennis', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconTennis.vue'))) },
+      // { id: 5, title: 'Регби', value: 'rugby', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconRugby.vue'))) },
+      // { id: 6, title: 'Волейбол', value: 'volleyball', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconVolleyball.vue'))) },
     ]
 )
 
