@@ -52,10 +52,7 @@ export const mainStore = defineStore('mainStore', () => {
                 }
             });
             const data = await response.json();
-            coverage.value = data.data.map((item, index) => ({
-                ...item,
-                isOpen: index < 3
-            }));
+            coverage.value = data.data;
         }catch (e) {
             console.error(e);
         }
