@@ -57,6 +57,10 @@ const columns = [
 function toggle(country) {
   country.isOpen = !country.isOpen
 }
+const showValue = (competition, value) => {
+  if (competition.grade === 5) return false
+  return !!competition.coverage[value].flag
+}
 </script>
 
 <template>
@@ -93,12 +97,8 @@ function toggle(country) {
             :class="['league-row', { even: index % 2 === 0 }]"
         >
           <td class="league-col">{{ competition.competition_title_ru ?? competition.competition_title }}</td>
-          <td
-              v-for="(val, fIdx) in competition.coverage"
-              :key="fIdx"
-              class="feature-cell"
-          >
-            <IconDone v-if="val.flag"/>
+          <td v-for="(col, fIdx) in columns" :key="fIdx" class="feature-cell">
+            <IconDone v-if="showValue(competition, col.value)"/>
           </td>
         </tr>
       </template>
