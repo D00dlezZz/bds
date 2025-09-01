@@ -58,7 +58,6 @@ function toggle(country) {
   country.isOpen = !country.isOpen
 }
 const showValue = (competition, value) => {
-  if (competition.grade === 5) return false
   return !!competition.coverage[value].flag
 }
 </script>
