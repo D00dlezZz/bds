@@ -24,8 +24,7 @@ export const mainStore = defineStore('mainStore', () => {
                 }
             });
             const data = await response.json();
-            const sorted = data.data.sort((a, b) => a.title.localeCompare(b.title));
-            countries.value = sorted;
+            countries.value = data.data;
             localStorage.setItem('countries', JSON.stringify(sorted));
         } catch (e) {
             console.error(e);
