@@ -62,6 +62,7 @@ const showValue = (competition, value) => {
 }
 </script>
 
+
 <template>
   <div class="info-text" v-if="isMobile">
     <p>Таблица прокручивается вбок</p>
@@ -71,7 +72,7 @@ const showValue = (competition, value) => {
     <table>
       <thead>
       <tr>
-        <th class="league-col"></th>
+        <th class="league-col col-h"></th>
         <th v-for="(col, idx) in columns" :key="idx">
           <span v-html="col.title"></span>
         </th>
@@ -107,12 +108,12 @@ const showValue = (competition, value) => {
   </div>
 </template>
 
-
 <style scoped>
 .country-table {
   background: transparent;
   width: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  max-height: 500px;
 }
 
 table {
@@ -130,12 +131,23 @@ thead {
 }
 
 th {
-  padding: 7px 6px;
+  padding: 7px 8px;
   text-align: center;
   vertical-align: middle;
   color: #D3FFE9;
   font-weight: 700;
   letter-spacing: 0.02em;
+}
+
+thead {
+  position: sticky;
+  top: -1px;
+  z-index: 2;
+  background: #0B0A0F;
+}
+
+.col-h {
+ width: 240px;
 }
 
 .country-header-td {
@@ -186,7 +198,7 @@ th {
   font-weight: 400;
   font-size: 14px;
   padding: 22px 20px;
-  min-width: 214px;
+  max-width: 240px;
   background: transparent;
 }
 
