@@ -25,7 +25,7 @@ export const mainStore = defineStore('mainStore', () => {
             });
             const data = await response.json();
             countries.value = data.data;
-            localStorage.setItem('countries', JSON.stringify(sorted));
+            localStorage.setItem('countries', JSON.stringify(countries.value));
         } catch (e) {
             console.error(e);
         }
