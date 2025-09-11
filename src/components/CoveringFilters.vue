@@ -17,9 +17,9 @@ const sportFilters = ref(
       { id: 1, title: 'Футбол', value: 'football', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconFootball.vue'))) },
       { id: 2, title: 'Хоккей', value: 'hockey', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconHockey.vue'))) },
       { id: 3, title: 'Баскетбол', value: 'basket', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconBasketball.vue'))) },
-      // { id: 4, title: 'Теннис', value: 'tennis', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconTennis.vue'))) },
-      // { id: 5, title: 'Регби', value: 'rugby', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconRugby.vue'))) },
-      // { id: 6, title: 'Волейбол', value: 'volleyball', status: 'disabled', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconVolleyball.vue'))) },
+      { id: 4, title: 'Теннис', value: 'tennis', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconTennis.vue'))) },
+      { id: 5, title: 'Регби', value: 'rugby', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconRugby.vue'))) },
+      { id: 6, title: 'Волейбол', value: 'volleyball', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconVolleyball.vue'))) },
     ]
 )
 
@@ -47,8 +47,13 @@ const carouselConfig = {
 
 
 const selectFilter = async (filter) => {
-  if (selectedFilters.value.sport.value == filter.value || filter.status === 'disabled') return;
+  if (selectedFilters.value.sport.value == filter.value) return;
   selectedFilters.value.sport = filter;
+  if (filter.status === 'coming_soon') {
+    // Clear coverage for coming soon sports
+    mainStore().coverage = [];
+    return;
+  }
   await mainStore().fetchCoverage()
 };
 

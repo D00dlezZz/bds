@@ -9,7 +9,7 @@ defineProps({
   isMobile: true
 })
 
-const {coverage} = storeToRefs(mainStore());
+const {coverage, selectedFilters} = storeToRefs(mainStore());
 
 const columns = [
   {
@@ -104,7 +104,7 @@ const showValue = (competition, value) => {
       </template>
       </tbody>
     </table>
-    <p v-if="!coverage.length" class="empty-text">Покажем в ближайшее время</p>
+    <p v-if="selectedFilters.sport.status === 'coming_soon'" class="empty-text">Скоро покажем</p>
   </div>
 </template>
 
