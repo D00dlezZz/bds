@@ -1,6 +1,7 @@
 <script setup>
 import {mainStore} from "@/store/main.js";
 import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 import IconDone from "@/components/icons/IconDone.vue"
 import IconArrow from "@/components/icons/IconArrow.vue";
 import IconTab from "@/components/icons/IconTab.vue";
@@ -11,7 +12,7 @@ defineProps({
 
 const {coverage, selectedFilters} = storeToRefs(mainStore());
 
-const columns = [
+const allColumns = [
   {
     title: "Матч-центр",
     value: 'match_center'
@@ -53,6 +54,14 @@ const columns = [
     value: 'trends'
   }
 ]
+
+const columns = computed(() => {
+  const isHockey = selectedFilters.value.sport.value === 'hockey';
+  if (isHockey) {
+    return allColumns.filter(col => col.value !== 'extra' && col.value !== 'referees');
+  }
+  return allColumns;
+})
 
 function toggle(country) {
   country.isOpen = !country.isOpen
