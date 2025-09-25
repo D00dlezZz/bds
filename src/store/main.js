@@ -10,11 +10,6 @@ export const mainStore = defineStore('mainStore', () => {
     });
 
     async function fetchCountries() {
-        const cached = localStorage.getItem('countries');
-        if (cached) {
-            countries.value = JSON.parse(cached);
-            return;
-        }
         try {
             const url = import.meta.env.VITE_API_URL + 'coverage/countries';
             const response = await fetch(url, {
@@ -25,7 +20,6 @@ export const mainStore = defineStore('mainStore', () => {
             });
             const data = await response.json();
             countries.value = data.data;
-            localStorage.setItem('countries', JSON.stringify(countries.value));
         } catch (e) {
             console.error(e);
         }
