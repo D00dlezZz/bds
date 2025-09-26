@@ -58,8 +58,11 @@ const allColumns = [
 const columns = computed(() => {
   const isHockey = selectedFilters.value.sport.value === 'hockey';
   const isBasket = selectedFilters.value.sport.value === 'basket';
-  if (isHockey || isBasket) {
+  if (isHockey) {
     return allColumns.filter(col => col.value !== 'extra' && col.value !== 'referees');
+  }
+  if (isBasket) {
+    return allColumns.filter(col => col.value !== 'extra' && col.value !== 'referees' && col.value !== 'avg');
   }
   return allColumns;
 })
