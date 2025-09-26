@@ -57,7 +57,8 @@ const allColumns = [
 
 const columns = computed(() => {
   const isHockey = selectedFilters.value.sport.value === 'hockey';
-  if (isHockey) {
+  const isBasket = selectedFilters.value.sport.value === 'basket';
+  if (isHockey || isBasket) {
     return allColumns.filter(col => col.value !== 'extra' && col.value !== 'referees');
   }
   return allColumns;
