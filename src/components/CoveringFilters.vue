@@ -18,8 +18,9 @@ const sportFilters = ref(
       { id: 2, title: 'Хоккей', value: 'hockey', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconHockey.vue'))) },
       { id: 3, title: 'Баскетбол', value: 'basket', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconBasketball.vue'))) },
       { id: 4, title: 'Теннис', value: 'tennis', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconTennis.vue'))) },
-      { id: 5, title: 'Регби', value: 'rugby', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconRugby.vue'))) },
-      { id: 6, title: 'Волейбол', value: 'volleyball', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconVolleyball.vue'))) },
+      { id: 5, title: 'MMA', value: 'mma', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconMMA.vue'))) },
+      { id: 6, title: 'Регби', value: 'rugby', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconRugby.vue'))) },
+      { id: 7, title: 'Волейбол', value: 'volleyball', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconVolleyball.vue'))) },
     ]
 )
 
@@ -33,15 +34,11 @@ const filteredSportFilters = computed(() => {
 
 const carouselConfig = {
   itemsToShow: 6,
-  itemsToScroll: 1,
+  itemsToScroll: 6,
   wrapAround: false,
   snapAlign: 'center',
   gap: 20,
   mouseDrag: false,
-  breakpoints: {
-    1200: { itemsToShow: 3 },
-    800: { itemsToShow: 1 }
-  },
   breakpointMode: 'viewport'
 }
 
@@ -72,7 +69,7 @@ onMounted(async () => {
 <template>
   <div class="filters-container">
     <div class="filters-carousel">
-      <Carousel v-if="!isMobile" v-bind="carouselConfig">
+      <Carousel v-if="!isMobile" v-bind="carouselConfig" >
         <Slide v-for="slide in sportFilters" :key="slide.id" @click="selectFilter(slide)">
           <div class="carousel__item" :class="selectedFilters.sport.id === slide.id ? 'active' : 'disabled'">
             <component :is="slide.iconComponent" />
@@ -136,18 +133,11 @@ onMounted(async () => {
   --vc-nav-icon-size: 24px;
 }
 
-.carousel__next, .carousel__prev {
-  filter: drop-shadow(0 0 5px #242130);
-  top: 50%;
-  transform: translateY(-50%);
+
+::v-deep .carousel__prev {
+  margin-left: 95%;
 }
 
-.carousel__prev {
-  left: -55px;
-}
-.carousel__next {
-  right: -55px;
-}
 .carousel__item {
   border-radius: 4px;
   min-width: 130px;
@@ -163,9 +153,7 @@ onMounted(async () => {
   cursor: pointer;
   transition: all;
 }
-.carousel__slide {
-  width: 130px !important;
-}
+
 .active {
   border: 2px solid red;
   background: url('../assets/filter-background-active.png'),

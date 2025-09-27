@@ -172,7 +172,8 @@ h4 {
   --vc-nav-icon-size: 24px;
 }
 
-:global(.carousel__prev) {
+
+::v-deep .carousel__prev {
   margin-left: 95%;
 }
 
