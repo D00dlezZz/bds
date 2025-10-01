@@ -17,7 +17,7 @@ const sportFilters = ref(
       { id: 1, title: 'Футбол', value: 'football', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconFootball.vue'))) },
       { id: 2, title: 'Хоккей', value: 'hockey', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconHockey.vue'))) },
       { id: 3, title: 'Баскетбол', value: 'basket', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconBasketball.vue'))) },
-      { id: 4, title: 'Теннис', value: 'tennis', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconTennis.vue'))) },
+      { id: 4, title: 'Теннис', value: 'tennis', status: 'active', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconTennis.vue'))) },
       { id: 5, title: 'MMA', value: 'mma', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconMMA.vue'))) },
       { id: 6, title: 'Регби', value: 'rugby', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconRugby.vue'))) },
       { id: 7, title: 'Волейбол', value: 'volleyball', status: 'coming_soon', iconComponent: markRaw(defineAsyncComponent(() => import('./icons/IconVolleyball.vue'))) },
@@ -48,6 +48,11 @@ const selectFilter = async (filter) => {
   selectedFilters.value.sport = filter;
   if (filter.status === 'coming_soon') {
     // Clear coverage for coming soon sports
+    mainStore().coverage = [];
+    return;
+  }
+  if (filter.value === 'tennis') {
+    // Tennis uses hardcoded data, no need to fetch
     mainStore().coverage = [];
     return;
   }
@@ -101,7 +106,7 @@ onMounted(async () => {
         </div>
       </transition>
     </div>
-    <CountrySelector/>
+    <CountrySelector v-if="selectedFilters.sport.value !== 'tennis'"/>
   </div>
 </template>
 

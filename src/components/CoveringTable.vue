@@ -55,9 +55,206 @@ const allColumns = [
   }
 ]
 
+const tennisColumns = [
+  {
+    title: "МЦ",
+    value: 'match_center'
+  },
+  {
+    title: "Очко за<br>очком",
+    value: 'point_by_point'
+  },
+  {
+    title: "Статистика<br>матчей",
+    value: 'match_stats'
+  },
+  {
+    title: "Коэффициенты",
+    value: 'odds'
+  },
+  {
+    title: "Прогнозы",
+    value: 'predictions'
+  },
+  {
+    title: "Средние<br>значения",
+    value: 'avg'
+  },
+  {
+    title: "Тренды и<br>серии",
+    value: 'trends'
+  },
+  {
+    title: "Extra-<br>content",
+    value: 'extra'
+  },
+  {
+    title: "Быстрые<br>рынки LIVE",
+    value: 'quick_live_markets'
+  }
+]
+
+const tennisCategories = [
+  {
+    id: 1,
+    title: 'ITF Men',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 2,
+    title: 'ATP',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 3,
+    title: 'ITF Women',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 4,
+    title: 'Challenger Women Doubles',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 5,
+    title: 'Challenger Men Doubles',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 6,
+    title: 'ATP Doubles',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 7,
+    title: 'WTA Doubles',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 8,
+    title: 'Challenger Women',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 9,
+    title: 'Challenger Men',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 10,
+    title: 'WTA',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  }
+]
+
 const columns = computed(() => {
   const isHockey = selectedFilters.value.sport.value === 'hockey';
   const isBasket = selectedFilters.value.sport.value === 'basket';
+  const isTennis = selectedFilters.value.sport.value === 'tennis';
+
+  if (isTennis) {
+    return tennisColumns;
+  }
   if (isHockey) {
     return allColumns.filter(col => col.value !== 'extra' && col.value !== 'referees');
   }
@@ -91,7 +288,19 @@ const showValue = (competition, value) => {
         </th>
       </tr>
       </thead>
-      <tbody v-if="coverage.length">
+      <tbody v-if="selectedFilters.sport.value === 'tennis'">
+        <tr
+            v-for="(category, index) in tennisCategories"
+            :key="category.id"
+            :class="['league-row', { even: index % 2 === 0 }]"
+        >
+          <td class="league-col">{{ category.title }}</td>
+          <td v-for="(col, fIdx) in columns" :key="fIdx" class="feature-cell">
+            <IconDone v-if="category.coverage[col.value]?.flag"/>
+          </td>
+        </tr>
+      </tbody>
+      <tbody v-else-if="coverage.length">
       <template v-for="country in coverage" :key="country.country_id">
         <tr @click="toggle(country)">
           <td class="country-header-td" :colspan="!isMobile ? columns.length + 1 : 0">
