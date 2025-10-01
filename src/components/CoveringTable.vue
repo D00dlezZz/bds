@@ -57,19 +57,19 @@ const allColumns = [
 
 const tennisColumns = [
   {
-    title: "МЦ",
+    title: "Матч-центр",
     value: 'match_center'
   },
   {
-    title: "Очко за<br>очком",
+    title: "Очко за очком",
     value: 'point_by_point'
   },
   {
-    title: "Статистика<br>матчей",
+    title: "Стат. матчей",
     value: 'match_stats'
   },
   {
-    title: "Коэффициенты",
+    title: "Коэф",
     value: 'odds'
   },
   {
@@ -77,19 +77,19 @@ const tennisColumns = [
     value: 'predictions'
   },
   {
-    title: "Средние<br>значения",
+    title: "Ср. знач.",
     value: 'avg'
   },
   {
-    title: "Тренды и<br>серии",
+    title: "Тренды и серии",
     value: 'trends'
   },
   {
-    title: "Extra-<br>content",
+    title: "Extra-content",
     value: 'extra'
   },
   {
-    title: "Быстрые<br>рынки LIVE",
+    title: "Быстрые рынки LIVE",
     value: 'quick_live_markets'
   }
 ]
@@ -97,21 +97,6 @@ const tennisColumns = [
 const tennisCategories = [
   {
     id: 1,
-    title: 'ITF Men',
-    coverage: {
-      match_center: { flag: true },
-      point_by_point: { flag: true },
-      match_stats: { flag: true },
-      odds: { flag: true },
-      predictions: { flag: true },
-      avg: { flag: true },
-      trends: { flag: true },
-      extra: { flag: true },
-      quick_live_markets: { flag: true }
-    }
-  },
-  {
-    id: 2,
     title: 'ATP',
     coverage: {
       match_center: { flag: true },
@@ -126,97 +111,7 @@ const tennisCategories = [
     }
   },
   {
-    id: 3,
-    title: 'ITF Women',
-    coverage: {
-      match_center: { flag: true },
-      point_by_point: { flag: true },
-      match_stats: { flag: true },
-      odds: { flag: true },
-      predictions: { flag: true },
-      avg: { flag: true },
-      trends: { flag: true },
-      extra: { flag: true },
-      quick_live_markets: { flag: true }
-    }
-  },
-  {
-    id: 4,
-    title: 'Challenger Women Doubles',
-    coverage: {
-      match_center: { flag: true },
-      point_by_point: { flag: true },
-      match_stats: { flag: true },
-      odds: { flag: true },
-      predictions: { flag: true },
-      avg: { flag: true },
-      trends: { flag: true },
-      extra: { flag: true },
-      quick_live_markets: { flag: true }
-    }
-  },
-  {
-    id: 5,
-    title: 'Challenger Men Doubles',
-    coverage: {
-      match_center: { flag: true },
-      point_by_point: { flag: true },
-      match_stats: { flag: true },
-      odds: { flag: true },
-      predictions: { flag: true },
-      avg: { flag: true },
-      trends: { flag: true },
-      extra: { flag: true },
-      quick_live_markets: { flag: true }
-    }
-  },
-  {
-    id: 6,
-    title: 'ATP Doubles',
-    coverage: {
-      match_center: { flag: true },
-      point_by_point: { flag: true },
-      match_stats: { flag: true },
-      odds: { flag: true },
-      predictions: { flag: true },
-      avg: { flag: true },
-      trends: { flag: true },
-      extra: { flag: true },
-      quick_live_markets: { flag: true }
-    }
-  },
-  {
-    id: 7,
-    title: 'WTA Doubles',
-    coverage: {
-      match_center: { flag: true },
-      point_by_point: { flag: true },
-      match_stats: { flag: true },
-      odds: { flag: true },
-      predictions: { flag: true },
-      avg: { flag: true },
-      trends: { flag: true },
-      extra: { flag: true },
-      quick_live_markets: { flag: true }
-    }
-  },
-  {
-    id: 8,
-    title: 'Challenger Women',
-    coverage: {
-      match_center: { flag: true },
-      point_by_point: { flag: true },
-      match_stats: { flag: true },
-      odds: { flag: true },
-      predictions: { flag: true },
-      avg: { flag: true },
-      trends: { flag: true },
-      extra: { flag: true },
-      quick_live_markets: { flag: true }
-    }
-  },
-  {
-    id: 9,
+    id: 2,
     title: 'Challenger Men',
     coverage: {
       match_center: { flag: true },
@@ -231,8 +126,113 @@ const tennisCategories = [
     }
   },
   {
-    id: 10,
+    id: 3,
+    title: 'Challenger Men Doubles',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 4,
+    title: 'ATP Doubles',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 5,
+    title: 'ITF Men',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 6,
     title: 'WTA',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 7,
+    title: 'Challenger Women',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 8,
+    title: 'Challenger Women Doubles',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 9,
+    title: 'WTA Doubles',
+    coverage: {
+      match_center: { flag: true },
+      point_by_point: { flag: true },
+      match_stats: { flag: true },
+      odds: { flag: true },
+      predictions: { flag: true },
+      avg: { flag: true },
+      trends: { flag: true },
+      extra: { flag: true },
+      quick_live_markets: { flag: true }
+    }
+  },
+  {
+    id: 10,
+    title: 'ITF Women',
     coverage: {
       match_center: { flag: true },
       point_by_point: { flag: true },
