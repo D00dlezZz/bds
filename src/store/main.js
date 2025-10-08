@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import {ref} from "vue";
+import { expandMergedCountryIds, mergeCoverageData } from '@/utils/countryMerger.js';
 
 export const mainStore = defineStore('mainStore', () => {
     const countries = ref([]);
@@ -29,7 +30,8 @@ export const mainStore = defineStore('mainStore', () => {
         try {
             let params = [];
             if (selectedFilters.value.countries.length) {
-                selectedFilters.value.countries.forEach(country => {
+                const expandedCountries = expandMergedCountryIds(selectedFilters.value.countries);
+                expandedCountries.forEach(country => {
                     params.push(`country_ids[]=${encodeURIComponent(country.id)}`);
                 });
             }
@@ -45,7 +47,7 @@ export const mainStore = defineStore('mainStore', () => {
                 }
             });
             const data = await response.json();
-            coverage.value = data.data;
+            coverage.value = mergeCoverageData(data.data);
         }catch (e) {
             console.error(e);
         }

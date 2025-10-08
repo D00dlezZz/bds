@@ -6,6 +6,7 @@ import CustomCheckbox from "@/components/ui/CustomCheckbox.vue";
 import IconArrow from "@/components/icons/IconArrow.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 import IconClose from "@/components/icons/IconClose.vue";
+import { mergeCountriesInList } from '@/utils/countryMerger.js';
 
 const {countries, selectedFilters} = storeToRefs(mainStore())
 
@@ -31,7 +32,7 @@ const filteredCountries = computed(() => {
       seen.add(c.title);
     }
   }
-  return unique;
+  return mergeCountriesInList(unique);
 });
 
 function toggleCountry(country) {
